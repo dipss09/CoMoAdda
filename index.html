@@ -2479,6 +2479,7 @@
 
       if (link && link !== '#') {
         window.open(link, '_blank');
+        localStorage.setItem('popupFollowed', 'true');
         
         if (code) {
           // Reveal the promo code in the popup button
@@ -2573,6 +2574,22 @@
             }
           }, 1000);
         }
+
+        // Show active code if they won one
+        const activeCode = localStorage.getItem('spinWonCode');
+        const activePrize = localStorage.getItem('spinWonPrize');
+        if (activeCode && activePrize) {
+           document.getElementById('spin-result').classList.remove('hidden', 'opacity-0');
+           document.getElementById('spin-prize-text').innerHTML = `${activePrize}<br><span class="text-white text-lg mt-2 inline-block">Code: <strong class="text-green-400 tracking-widest">${activeCode}</strong></span><br><span class="text-xs text-white/50 block mt-1">Apply this code at checkout manually!</span>`;
+           const claimBtn = document.getElementById('spin-claim-btn');
+           if (claimBtn) claimBtn.classList.add('hidden');
+           
+           // Hide wheel visuals so it's clean
+           const customImgEl = document.getElementById('spin-wheel-custom-img');
+           const canvasEl = document.getElementById('spin-wheel-canvas');
+           if (customImgEl) customImgEl.classList.add('hidden');
+           if (canvasEl) canvasEl.classList.add('hidden');
+        }
       } else {
         btn.disabled = false;
         btn.classList.remove('opacity-50', 'cursor-not-allowed');
@@ -2587,15 +2604,17 @@
        const prize = document.getElementById('spin-prize-text').textContent;
        const match = prize.match(/(\d+)%/); // e.g. 10%
        if (match) {
-           sessionStorage.setItem('pendingPromoPct', match[1]);
-           sessionStorage.setItem('pendingPromoCode', 'SPINOFFER');
+           const codeStr = 'SPIN' + match[1];
+           localStorage.setItem('spinWonCode', codeStr);
+           localStorage.setItem('spinWonPct', match[1]);
+           localStorage.setItem('spinWonPrize', prize);
+           
+           document.getElementById('spin-prize-text').innerHTML = `${prize}<br><span class="text-white text-lg mt-2 inline-block">Code: <strong class="text-green-400 tracking-widest">${codeStr}</strong></span><br><span class="text-xs text-white/50 block mt-1">Apply this code at checkout manually!</span>`;
+           const claimBtn = document.getElementById('spin-claim-btn');
+           if (claimBtn) claimBtn.classList.add('hidden');
+       } else {
+           closeSpinModal();
        }
-       closeSpinModal();
-       // Redirect to catalog
-       setTimeout(() => {
-           document.getElementById('categories').scrollIntoView({ behavior: 'smooth' });
-           document.getElementById('global-popup').classList.add('hidden');
-       }, 300);
     };
 
     // Instagram follow gate handler
@@ -2719,6 +2738,21 @@
           currentDiscountPct = parseInt(pendingPct) || 10;
 
           statusEl.textContent = `Promo code applied! ${currentDiscountPct}% Discount unlocked.`;
+          statusEl.className = "text-xs font-bold mt-1 text-[#006e20] leading-tight";
+          document.getElementById("f-rewards").value = "";
+          renderOrderSummary();
+          return;
+      }
+
+      // 0.5. Check if this is a Spin & Win code
+      const spinCode = localStorage.getItem('spinWonCode');
+      const spinPct = localStorage.getItem('spinWonPct');
+      if (spinCode && spinPct && codeInput === spinCode) {
+          currentDiscountType = "discountCode";
+          appliedPromoCode = codeInput;
+          currentDiscountPct = parseInt(spinPct) || 10;
+
+          statusEl.textContent = `Promo code applied! ${currentDiscountPct}% Spin & Win Discount unlocked.`;
           statusEl.className = "text-xs font-bold mt-1 text-[#006e20] leading-tight";
           document.getElementById("f-rewards").value = "";
           renderOrderSummary();
@@ -2995,6 +3029,12 @@
 
       // ── Show success ──
       document.getElementById("success-conf-code").textContent = confCode;
+      
+      // Clear Spin & Win single-use code if they used it
+      localStorage.removeItem('spinWonCode');
+      localStorage.removeItem('spinWonPct');
+      localStorage.removeItem('spinWonPrize');
+      
       closeOrderModal();
       const snap = document.getElementById("success-order-snapshot");
       snap.classList.remove("hidden");
@@ -3847,7 +3887,7 @@
           // Process Popup Notification
           if (data.popup && data.popup.enabled) {
              const popupClosedDate = localStorage.getItem('popupClosedDate');
-             if (popupClosedDate !== new Date().toDateString()) {
+             if (popupClosedDate !== new Date().toDateString() && !localStorage.getItem('popupFollowed')) {
                 document.getElementById('popup-title').textContent = data.popup.title || 'Notification';
                 document.getElementById('popup-message').textContent = data.popup.message || '';
                 window.popupPromoCode = data.popup.promoCode || '';
