@@ -2467,7 +2467,7 @@
       document.getElementById('global-popup-content').classList.add('scale-95', 'opacity-0');
       setTimeout(() => {
         document.getElementById('global-popup').classList.add('hidden');
-        sessionStorage.setItem('popupClosed', 'true');
+        localStorage.setItem('popupClosedDate', new Date().toDateString());
       }, 500);
     };
 
@@ -2675,7 +2675,12 @@
 
         const claimBtn = document.getElementById('spin-claim-btn');
         if (claimBtn) {
-           claimBtn.classList.remove('hidden');
+           if (prize.toLowerCase().includes('try again') || prize.toLowerCase().includes('better luck')) {
+               claimBtn.classList.add('hidden');
+               document.getElementById('spin-prize-text').textContent = 'Oops, try again tomorrow!';
+           } else {
+               claimBtn.classList.remove('hidden');
+           }
         }
 
         if (prize.toLowerCase().includes('point') && window.auth && auth.currentUser) {
@@ -3841,8 +3846,8 @@
 
           // Process Popup Notification
           if (data.popup && data.popup.enabled) {
-             const popupClosed = sessionStorage.getItem('popupClosed');
-             if (!popupClosed) {
+             const popupClosedDate = localStorage.getItem('popupClosedDate');
+             if (popupClosedDate !== new Date().toDateString()) {
                 document.getElementById('popup-title').textContent = data.popup.title || 'Notification';
                 document.getElementById('popup-message').textContent = data.popup.message || '';
                 window.popupPromoCode = data.popup.promoCode || '';
@@ -3929,11 +3934,15 @@
                if (spinBtn) { spinBtn.disabled = false; spinBtn.classList.remove('opacity-50'); }
              }
 
-             // Auto-popup after configured delay (once per session)
+             // Auto-popup after configured delay (floating button bounce/highlight instead of full screen modal)
              if (window.spinPopupDelay > 0 && !sessionStorage.getItem('spinPopupShown')) {
                setTimeout(() => {
                  sessionStorage.setItem('spinPopupShown', 'true');
-                 openSpinModal();
+                 const spinBtnFloat = document.getElementById('spin-floating-btn');
+                 if (spinBtnFloat) {
+                    spinBtnFloat.classList.add('animate-bounce');
+                    setTimeout(() => spinBtnFloat.classList.remove('animate-bounce'), 3000);
+                 }
                }, window.spinPopupDelay * 1000);
              }
           } else {
