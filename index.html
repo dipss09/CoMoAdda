@@ -4576,6 +4576,7 @@
     window.closeProductZoom = function() {
       const modal = document.getElementById('product-zoom-modal');
       const inner = document.getElementById('product-zoom-inner');
+      modal.classList.remove('opacity-100');
       modal.classList.add('opacity-0');
       inner.classList.add('translate-y-8');
       setTimeout(() => modal.classList.add('pointer-events-none'), 300);
