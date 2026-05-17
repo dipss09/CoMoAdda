@@ -932,6 +932,8 @@
           href="#rewards"><span class="material-symbols-outlined text-sm" style="font-size:1rem">redeem</span>Redeem
           Reward</a>
         <a class="text-stone-600 font-medium hover:text-stone-900 hover:scale-105 transition-transform duration-300"
+          href="#reviews">Review Us</a>
+        <a class="text-stone-600 font-medium hover:text-stone-900 hover:scale-105 transition-transform duration-300"
           href="#contact">Contact</a>
       </div>
 
@@ -1029,12 +1031,7 @@
             class="brew-input w-full bg-surface-container-lowest rounded-2xl p-4 transition-all font-medium"
             style="border:none;" />
         </div>
-        <div class="space-y-1">
-          <label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Email Address *</label>
-          <input id="f-email" required type="email" placeholder="you@example.com"
-            class="brew-input w-full bg-surface-container-lowest rounded-2xl p-4 transition-all font-medium"
-            style="border:none;" />
-        </div>
+
         <div class="space-y-1">
           <label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Delivery Address *</label>
           <textarea id="f-address" required rows="3" placeholder="House no., street, area, city..."
@@ -1098,7 +1095,7 @@
         <div class="rounded-2xl bg-secondary-container/30 p-4 flex gap-3 items-start">
           <span class="material-symbols-outlined text-secondary text-xl mt-0.5">info</span>
           <div class="text-xs text-on-surface-variant leading-relaxed">
-            Your order details will be sent to us via <strong>WhatsApp</strong> and <strong>Email</strong>. We'll reach
+            Your order details will be sent to us via <strong>WhatsApp</strong>. We'll reach
             out to confirm your order within a few minutes.
           </div>
         </div>
@@ -1266,15 +1263,15 @@
         <!-- ── LOGIN FORM ── -->
         <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
           <div class="space-y-1">
-            <label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Username or Email
+            <label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Username or Phone
               *</label>
-            <input id="login-username" required type="text" placeholder="your_username or you@email.com"
-              autocomplete="username email"
+            <input id="login-username" required type="text" placeholder="your_username or 9876543210"
+              autocomplete="username tel"
               class="brew-input w-full bg-surface-container-lowest rounded-2xl p-4 transition-all font-medium"
               style="border:none;" />
           </div>
           <div class="space-y-1">
-            <label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Password *</label>
+            <label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Password (for next login) *</label>
             <div class="relative">
               <input id="login-password" required type="password" placeholder="••••••••" autocomplete="current-password"
                 class="brew-input w-full bg-surface-container-lowest rounded-2xl p-4 transition-all font-medium pr-12"
@@ -1315,7 +1312,7 @@
           <!-- 3. Create Your Password -->
           <div class="space-y-1">
             <label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Create Your Password
-              *</label>
+              (for next login) *</label>
             <div class="relative">
               <input id="auth-password" required type="password" placeholder="Min 8 characters"
                 autocomplete="new-password" minlength="8"
@@ -1329,15 +1326,7 @@
           <!-- 4. Phone Number -->
           <div class="space-y-1">
             <label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Phone Number *</label>
-            <input id="auth-phone" required type="tel" placeholder="+91XXXXXX4865"
-              class="brew-input w-full bg-surface-container-lowest rounded-2xl p-4 transition-all font-medium"
-              style="border:none;" />
-          </div>
-
-          <!-- 5. Email Address -->
-          <div class="space-y-1">
-            <label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Email Address *</label>
-            <input id="auth-email" required type="email" placeholder="you@example.com" autocomplete="email"
+            <input id="auth-phone" required type="tel" placeholder="9876543210"
               class="brew-input w-full bg-surface-container-lowest rounded-2xl p-4 transition-all font-medium"
               style="border:none;" />
           </div>
@@ -1524,23 +1513,7 @@
   <!-- ══════════════ PRODUCT SECTION ══════════════ -->
   <section class="py-8 md:py-24 bg-surface-container-low" id="products">
     <div class="max-w-7xl mx-auto px-3 md:px-8">
-      <!-- REDEEM REWARD CTA -->
-      <div class="mb-5 md:mb-10 flex items-center justify-between gap-2 flex-wrap">
-        <div>
-          <span class="text-secondary font-bold tracking-widest uppercase text-xs md:text-sm">Best Sellers</span>
-          <h2 class="text-2xl md:text-5xl font-black text-primary mt-1 md:mt-2">Signature Crafts</h2>
-          <div class="flex gap-1 md:gap-2 mt-1 md:mt-3">
-            <span class="px-2 md:px-4 py-0.5 md:py-1 bg-tertiary-fixed-dim/40 backdrop-blur-md rounded-full text-[10px] md:text-xs font-bold text-on-tertiary-fixed-variant uppercase tracking-wider">Coffee</span>
-            <span class="px-2 md:px-4 py-0.5 md:py-1 bg-tertiary-fixed-dim/40 backdrop-blur-md rounded-full text-[10px] md:text-xs font-bold text-on-tertiary-fixed-variant uppercase tracking-wider">Crafts</span>
-          </div>
-        </div>
-        <a href="#rewards"
-          class="inline-flex items-center gap-1 md:gap-2 px-3 md:px-5 py-2 md:py-3 bg-secondary text-white rounded-xl md:rounded-2xl font-black text-[10px] md:text-sm uppercase tracking-widest hover:opacity-90 transition-opacity shadow-md group">
-          <span class="material-symbols-outlined text-sm group-hover:rotate-12 transition-transform">card_giftcard</span>
-          <span class="hidden sm:inline">Redeem</span> Reward
-          <span class="text-white/70 text-[9px] md:text-xs font-medium normal-case tracking-normal"><span class="dyn-points">600</span> pts</span>
-        </a>
-      </div>
+
 
       <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-12" id="product-grid">
         <!-- Products rendered by JS -->
@@ -1554,7 +1527,7 @@
       <div class="lg:w-1/2 relative w-full">
         <div class="relative z-10 rounded-2xl md:rounded-[3rem] overflow-hidden shadow-2xl">
           <img id="about-story-img" class="w-full h-48 sm:h-72 md:h-[600px] object-cover"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl58nifH_4ct6gHTREqJlfJNV7ZH4ezx34eJtvQPbe6qIHo4AtjF4KMc5H8kfF03CHqWysPbaJijD4osQdwLX2nL0AdaVhtfo4_LiOUN60NlbYfbsj963SfESU9gX8Om5bg-o0QNIw61aHvZRWwt0oC3js7g5H2xSzGqZVmOMJ-ZXQLk5mBGS_mrjimrXY_4fpaQWySpWkXiJW0a2SCugCn7luKMuwff2Ztc9tFnulRdCr6z9nQHoPyyyUmzscYIY-zNQcrIVV8_o"
+            src=""
             alt="Cozy artisanal cafe interior" />
         </div>
         <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-tertiary-fixed rounded-3xl -z-0"></div>
@@ -1627,43 +1600,6 @@
     </div>
   </section>
 
-  <!-- ══════════════ GALLERY ══════════════ -->
-  <section class="py-10 md:py-24 px-3 md:px-4 bg-surface">
-    <div class="max-w-7xl mx-auto">
-      <div class="flex flex-col md:flex-row justify-between items-center mb-5 md:mb-12 px-1 md:px-4 gap-2 md:gap-4">
-        <h2 class="text-2xl md:text-3xl font-black text-primary">The Insta-Vibe</h2>
-        <a id="insta-top" class="text-primary font-bold hover:underline flex items-center gap-2" href="#">
-          Follow @BrewDipu <span class="material-symbols-outlined text-sm">open_in_new</span>
-        </a>
-      </div>
-      <div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4">
-        <div class="aspect-square overflow-hidden rounded-xl group cursor-pointer shadow-md"><img id="ig-1"
-            class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG5dgLYqM4_p9H4qSZGU_1UGOu29_5DLGSxSR-S9I1Ky7kVn8Q9zDiX5am5l0RqDuEmMeNIxb-j7LHhx2r4-KuvsO1WWdIndFOaREFzRQT26Mr0dI_M33zefuCoWL9O7y-yQ9fLQij3nR4fHkAOmWyH8c8Yr56XPAvHe1fSGt7EQN7SILqPZKbZgAk5X1yTOo_Ikapc8HiX8cpBNbA74xWANTxOvE3q1XAbuqAeZbe6N7edSj5Z0HnO1N2hhlYjXuvMmSTz1zDoKs"
-            alt="Gallery Image 1" /></div>
-        <div class="aspect-square overflow-hidden rounded-xl group cursor-pointer shadow-md"><img id="ig-2"
-            class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkeyEwEndkSVQ2WAYrXMJZ2jCwMo0k6vCdmJpKOj6FA-PJoh_i8U2sKTh3fqXCu7v4mt_biITpbHGySIP2T8UYMCLJRp27jGKBB3T2NDffWWvj5urZkbE_h_18xREGyMgCFMBfz76yJsr3k0W-217H8SWhUGhMDZqaSM3MUo"
-            alt="Gallery Image 2" /></div>
-        <div class="aspect-square overflow-hidden rounded-xl group cursor-pointer shadow-md"><img id="ig-3"
-            class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUVdXStgnsAV_xqT9bbq2d2RUKgW1ZvNzc0ErR-blZtC8nAuCwbPik_TEVX5g0o1kZcj7gnhjnGsSQhG7kPE5d36DUYFBZKGy85X9Hzv1U-_qXRJ5czncq7vLnZqQ1SNv0BQESW47dqLB3q5bT5yLoR4B0CpiO5R5w8JNwFMHR7XmW3aJZ1NP1IZMkAKfAakvAqzCQhXriloxeBF4pnQNirADBj6K8uWySkxKDkOfZNSqL6DIipAAG7FlZJh8auas791dZQpbS1Ok"
-            alt="Gallery Image 3" /></div>
-        <div class="aspect-square overflow-hidden rounded-xl group cursor-pointer shadow-md"><img id="ig-4"
-            class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVAf42WfmdWp8fzjb5n-pNDyd6tEu5RjHGBRy-M1iNKhizaoWeeR3Hq9cOQ6SUVS2kz0Qx0LJp3LKHmK3P5M3mKZDBuQTKjfnASrQXPqLjT4Q7k2MpDCBs6ahJBjJVLaIawepdF2dEgNw9Nk17nOrxk7d8KDka1E0CyK68YVfDNUM2r1BoR_PknTYJmw3U"
-            alt="Gallery Image 4" /></div>
-        <div class="aspect-square overflow-hidden rounded-xl group cursor-pointer shadow-md"><img id="ig-5"
-            class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2eWeFJ2WHHnmJ9TZ_jC43jzbxluw3yZGAgVyd1Af6-DIO3bbLbhLAp0Jiws-4Sx86_87DbE-KAVUIHz8j4n1omQYVgC0XW40cdfgnVeIWWgrYFdhg-ATHBIZ5ljTUiI3qsDLSAh7pcmIWxGBYAbBYlQVtHPY72Yv2tjwGoYDmIfAG0sROGadhwJe0MPTg3rUaeeEsumc_nEqT-35tq_fPY9mstTSbBoIy5D-l_LNFy0xuvFWH91Rzs_aZiA6VMxjTSWw0FP72_gU"
-            alt="Gallery Image 5" /></div>
-        <div class="aspect-square overflow-hidden rounded-xl group cursor-pointer shadow-md"><img id="ig-6"
-            class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrPHB9YCAT75EtF4hVagAl11ELzw5MsHEZR0kPmkn0IxnCWITy0gy6GziNw1zi8gaZLUS56R6kqXjBBh67nKIQi_fXsyBgmaLzPtGmMHLAxgssHVJdy1E_3Ud-tzosQj-F34bKSkjxW5TERUIaTH-eM-s-J7w_aaT2cyzoV_w4uQEYiEc4hka7a8smMj8EnxMx4D9cVoRYdFv1GlqMWfxcu5OpwWvA6aDZyNDuspvsncnHnMgp2cWt0rSLyELFYL-HRq3KSMWxP0U"
-            alt="Gallery Image 6" /></div>
-      </div>
-    </div>
-  </section>
 
   <!-- ══════════════ CUSTOMER REVIEWS ══════════════ -->
   <section class="py-10 md:py-24 px-4 md:px-8 bg-surface-container-high" id="reviews">
@@ -1950,6 +1886,9 @@
     try {
       firebase.initializeApp(firebaseConfig);
       db = firebase.firestore();
+      db.enablePersistence().catch(function(err) {
+        console.warn("Firebase persistence error:", err);
+      });
     } catch (e) {
       console.error("Firebase init failed (replace config):", e);
     }
@@ -2196,17 +2135,17 @@
         const disabledProp = isOutOfStock || !isStoreOpen ? "disabled" : "";
 
         return `
-      <div class="glass-card p-2 md:p-6 rounded-xl md:rounded-[2rem] hover:-translate-y-1 md:hover:-translate-y-4 transition-all duration-500 flex flex-col group">
+      <div class="glass-card p-2 md:p-6 rounded-xl md:rounded-[2rem] hover:-translate-y-1 md:hover:-translate-y-4 transition-all duration-500 flex flex-col group cursor-pointer" onclick="openProductZoom('${p.id}')">
         <div class="relative mb-2 md:mb-8 aspect-square rounded-lg md:rounded-2xl overflow-hidden bg-surface-container">
           ${(p.images && p.images.length > 1) ? `
           <!-- Multi-image carousel -->
           <div class="w-full h-full relative" id="carousel-${p.id}">
             ${p.images.map((imgUrl, i) => `<img class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isOutOfStock ? 'grayscale opacity-70' : ''} ${i===0?'opacity-100':'opacity-0'}" src="${imgUrl}" alt="${p.name} view ${i+1}" loading="lazy" data-carousel-img>`).join('')}
             <div class="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-1 z-10">
-              ${p.images.map((_,i) => `<button onclick="carouselGo('${p.id}',${i})" class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full border border-white/60 transition-colors ${i===0?'bg-white':'bg-white/30'}" data-dot-${p.id}></button>`).join('')}
+              ${p.images.map((_,i) => `<button onclick="event.stopPropagation();carouselGo('${p.id}',${i})" class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full border border-white/60 transition-colors ${i===0?'bg-white':'bg-white/30'}" data-dot-${p.id}></button>`).join('')}
             </div>
-            <button onclick="carouselPrev('${p.id}')" class="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center z-10 shadow"><span class="material-symbols-outlined text-[14px] md:text-base">chevron_left</span></button>
-            <button onclick="carouselNext('${p.id}')" class="absolute right-1 top-1/2 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center z-10 shadow"><span class="material-symbols-outlined text-[14px] md:text-base">chevron_right</span></button>
+            <button onclick="event.stopPropagation();carouselPrev('${p.id}')" class="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center z-10 shadow"><span class="material-symbols-outlined text-[14px] md:text-base">chevron_left</span></button>
+            <button onclick="event.stopPropagation();carouselNext('${p.id}')" class="absolute right-1 top-1/2 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center z-10 shadow"><span class="material-symbols-outlined text-[14px] md:text-base">chevron_right</span></button>
           </div>` : `
           <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${isOutOfStock ? 'grayscale opacity-70' : ''}"
             src="${p.img}" alt="${p.name}" loading="lazy"/>`}
@@ -2230,10 +2169,10 @@
           </div>
         </div>` : `
         <div class="flex gap-1 md:gap-2 mt-auto">
-          <button ${clickAction} ${disabledProp} class="flex-1 py-1.5 md:py-4 bg-surface-container-highest text-primary rounded-lg md:rounded-xl font-bold flex items-center justify-center gap-0.5 md:gap-1 hover:bg-outline-variant transition-colors group/btn text-[10px] md:text-base">
+          <button onclick="event.stopPropagation();${isStoreOpen ? `addToCart('${p.id}')` : ''}" ${disabledProp} class="flex-1 py-1.5 md:py-4 bg-surface-container-highest text-primary rounded-lg md:rounded-xl font-bold flex items-center justify-center gap-0.5 md:gap-1 hover:bg-outline-variant transition-colors group/btn text-[10px] md:text-base">
             +Cart <span class="material-symbols-outlined text-[9px] md:text-sm hidden md:inline group-hover/btn:translate-x-1 transition-transform">add_shopping_cart</span>
           </button>
-          <button ${buyNowAction} ${disabledProp} class="flex-1 py-1.5 md:py-4 bg-primary text-white rounded-lg md:rounded-xl font-bold flex items-center justify-center gap-0.5 md:gap-1 hover:bg-primary-container transition-colors group/btn2 text-[10px] md:text-base">
+          <button onclick="event.stopPropagation();${isStoreOpen ? `buyNow('${p.id}')` : ''}" ${disabledProp} class="flex-1 py-1.5 md:py-4 bg-primary text-white rounded-lg md:rounded-xl font-bold flex items-center justify-center gap-0.5 md:gap-1 hover:bg-primary-container transition-colors group/btn2 text-[10px] md:text-base">
             Buy <span class="material-symbols-outlined text-[9px] md:text-sm hidden md:inline group-hover/btn2:translate-x-1 transition-transform">bolt</span>
           </button>
         </div>`}
@@ -2523,20 +2462,43 @@
       }, 500);
     };
 
-    // Claim Now: opens the link and auto-applies promo code
+    // Claim Now: opens the link and reveals promo code
     window.handlePopupClaim = function() {
       const link = window.popupLink || '#';
       const code = window.popupPromoCode || '';
-      if (link && link !== '#') window.open(link, '_blank');
-      if (code) {
+      const btn = document.getElementById('popup-btn');
+
+      if (link && link !== '#') {
+        window.open(link, '_blank');
+        
+        if (code) {
+          // Reveal the promo code in the popup button
+          btn.innerHTML = `<span class="material-symbols-outlined text-sm align-middle mr-1">check_circle</span> Code: <span class="font-mono text-lg ml-1">${code}</span>`;
+          btn.classList.add('bg-green-600');
+          btn.classList.remove('bg-gradient-to-r', 'from-primary', 'to-secondary');
+          btn.onclick = closeGlobalPopup;
+          
+          document.getElementById('popup-message').innerHTML = `<strong>Thank you for following!</strong><br/>Your promo code has been revealed and applied to your cart.`;
+          
+          sessionStorage.setItem('pendingPromoCode', code);
+          const refInput = document.getElementById('f-ref-code');
+          if (refInput) refInput.value = code;
+          const hintEl = document.getElementById('popup-promo-hint');
+          if (hintEl) hintEl.classList.remove('hidden');
+          
+          if (typeof applyReferralCode === 'function') setTimeout(() => applyReferralCode(), 700);
+        } else {
+          closeGlobalPopup();
+        }
+      } else if (code) {
         sessionStorage.setItem('pendingPromoCode', code);
         const refInput = document.getElementById('f-ref-code');
         if (refInput) refInput.value = code;
-        const hintEl = document.getElementById('popup-promo-hint');
-        if (hintEl) hintEl.classList.remove('hidden');
+        closeGlobalPopup();
+        if (typeof applyReferralCode === 'function') setTimeout(() => applyReferralCode(), 700);
+      } else {
+        closeGlobalPopup();
       }
-      closeGlobalPopup();
-      if (code && typeof applyReferralCode === 'function') setTimeout(() => applyReferralCode(), 700);
     };
 
     // Auto-apply pending promo on page load
@@ -2573,7 +2535,7 @@
         btn.disabled = false;
         btn.classList.remove('opacity-50');
       }
-      btn.textContent = '\uD83C\uDFB0 SPIN NOW!';
+      btn.textContent = '\uD83C\uDFB0 ' + (window.spinCtaText ? window.spinCtaText.toUpperCase() : 'SPIN NOW!');
       if (!window.spinWheelImg) renderSpinWheel();
     };
 
@@ -2771,11 +2733,11 @@
 
       const name = document.getElementById("f-name").value.trim();
       const phone = document.getElementById("f-phone").value.trim();
-      const email = document.getElementById("f-email").value.trim();
       const address = document.getElementById("f-address").value.trim();
+      const email = ''; // Email not collected from customer
       const notes = ""; // Special instructions removed
 
-      if (!name || !phone || !email || !address) {
+      if (!name || !phone || !address) {
         showToast("Please fill all required fields"); return;
       }
 
@@ -3051,7 +3013,10 @@
         if (!doc.exists) return;
         const d = doc.data();
         if (d.name) document.getElementById('f-name').value = d.name;
-        if (d.email) document.getElementById('f-email').value = d.email;
+        if (d.email && document.getElementById('f-name')) {
+          // pre-fill name if logged in
+          if (!document.getElementById('f-name').value && d.name) document.getElementById('f-name').value = d.name;
+        }
         if (d.phone) document.getElementById('f-phone').value = d.phone;
         if (d.address) document.getElementById('f-address').value = d.address;
       });
@@ -3093,14 +3058,14 @@
 
       // 1. Animate each letter in
       letters.forEach((el, i) => {
-        setTimeout(() => el.classList.add("show"), 30 + i * 40);
+        setTimeout(() => el.classList.add("show"), 10 + i * 20);
       });
 
       // Show tagline after all letters land
-      setTimeout(() => tagline.classList.add("show"), 400);
+      setTimeout(() => tagline.classList.add("show"), 150);
 
       // Fill progress bar
-      setTimeout(() => { bar.style.width = "100%"; }, 100);
+      setTimeout(() => { bar.style.width = "100%"; }, 50);
 
       // 2. The custom exit transition
       setTimeout(() => {
@@ -3117,9 +3082,9 @@
           screen.classList.add("exit-up");
           heroTitle.classList.add("reveal"); // The hero's own BrewDipu text fades in
 
-          setTimeout(() => { screen.style.display = "none"; }, 800);
-        }, 300); // Wait for text to fade out before sliding screen up
-      }, 1200);
+          setTimeout(() => { screen.style.display = "none"; }, 400);
+        }, 150); // Wait for text to fade out before sliding screen up
+      }, 500);
     }
 
     // ──────────────────────────────────────────────
@@ -3244,13 +3209,24 @@
 
       try {
         let email = input;
+        const isPhone = /^[0-9+]+$/.test(input);
+
         if (!isEmail) {
-          // Username path: look up registered email from Firestore
-          const usernameDoc = await db.collection('usernames').doc(input.toLowerCase()).get();
-          if (!usernameDoc.exists) {
-            throw { code: 'auth/user-not-found', message: 'Username not found. Try logging in with your email.' };
+          if (isPhone) {
+            // Phone path
+            const phoneDoc = await db.collection('phones').doc(input.replace(/[^0-9]/g, '')).get();
+            if (!phoneDoc.exists) {
+              throw { code: 'auth/user-not-found', message: 'Phone number not found. Please sign up.' };
+            }
+            email = phoneDoc.data().email;
+          } else {
+            // Username path
+            const usernameDoc = await db.collection('usernames').doc(input).get();
+            if (!usernameDoc.exists) {
+              throw { code: 'auth/user-not-found', message: 'Username not found. Try logging in with your phone number.' };
+            }
+            email = usernameDoc.data().email;
           }
-          email = usernameDoc.data().email;
         }
 
         // Sign in with email + password (Firebase handles secure hashing)
@@ -3262,7 +3238,7 @@
       } catch (err) {
         console.error('Login error:', err);
         let msg = 'Login failed. Please try again.';
-        if (err.code === 'auth/user-not-found' || err.message === 'Username not found.') msg = 'Username not found.';
+        if (err.code === 'auth/user-not-found' || err.message.includes('not found')) msg = err.message || 'Account not found.';
         else if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') msg = 'Incorrect password.';
         else if (err.code === 'auth/too-many-requests') msg = 'Too many attempts. Try again later.';
         errEl.textContent = msg;
@@ -3284,12 +3260,12 @@
       txt.textContent = 'Creating account…';
 
       const name = document.getElementById('auth-name').value.trim();
-      const email = document.getElementById('auth-email').value.trim();
       const phone = document.getElementById('auth-phone').value.trim();
       const address = document.getElementById('auth-address').value.trim();
       const username = document.getElementById('auth-username').value.trim().toLowerCase();
       const password = document.getElementById('auth-password').value;
       const refCode = document.getElementById('auth-ref-code-input').value.trim().toUpperCase();
+      const email = username + '@brewdipu.shop'; // Internal email mapped to username
 
       // Basic username validation
       if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
@@ -3311,8 +3287,9 @@
         const cred = await firebase.auth().createUserWithEmailAndPassword(email, password);
         const user = cred.user;
 
-        // 3. Reserve the username → email mapping (atomic lookup for login)
+        // 3. Reserve the username & phone → email mapping (atomic lookup for login)
         await db.collection('usernames').doc(username).set({ email: email, uid: user.uid });
+        await db.collection('phones').doc(phone.replace(/[^0-9]/g, '')).set({ email: email, uid: user.uid });
 
         // 4. Generate referral code
         // Referral code derived from the user's first name for a personal feel
@@ -3417,7 +3394,6 @@
 
               // One clean prefill of checkout form — no duplicates
               document.getElementById("f-name").value = data.name || "";
-              document.getElementById("f-email").value = data.email || "";
               document.getElementById("f-phone").value = data.phone || user.phoneNumber || "";
               document.getElementById("f-address").value = data.address || "";
               
@@ -3659,6 +3635,7 @@
       if (document.getElementById("success-modal")) document.getElementById("success-modal").classList.remove("open");
       closeAuth();
       closeProfile();
+      if (typeof closeProductZoom === 'function') closeProductZoom();
     };
 
     // ──────────────────────────────────────────────
@@ -3805,6 +3782,11 @@
                    btnEl.classList.add('hidden');
                 }
 
+                // Restore button appearance in case it was revealed earlier
+                btnEl.classList.add('bg-gradient-to-r', 'from-primary', 'to-secondary');
+                btnEl.classList.remove('bg-green-600');
+                btnEl.onclick = handlePopupClaim;
+
                 setTimeout(() => {
                   document.getElementById('global-popup').classList.remove('hidden');
                   setTimeout(() => document.getElementById('global-popup-content').classList.remove('scale-95', 'opacity-0'), 50);
@@ -3825,6 +3807,8 @@
              // Update CTA text in the modal
              const ctaHeading = document.getElementById('spin-cta-heading');
              if (ctaHeading) ctaHeading.innerHTML = window.spinCtaText.replace(/\s+(?=[^\s]*$)/, ' <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">') + '</span>';
+             const ctaBtn = document.getElementById('spin-action-btn');
+             if (ctaBtn) ctaBtn.textContent = '\uD83C\uDFB0 ' + window.spinCtaText.toUpperCase();
 
              // Set wheel image on floating button + modal
              const canvasEl = document.getElementById('spin-wheel-canvas');
@@ -3888,13 +3872,7 @@
             });
           }
 
-          // Insta-Vibe Gallery Rendering
-          if (data.instaGallery) {
-            data.instaGallery.forEach((url, idx) => {
-              const imgEl = document.getElementById(`ig-${idx + 1}`);
-              if (imgEl && url) imgEl.src = url;
-            });
-          }
+
 
           // Timing / Auto Live Logic with 7-Day Schedule
           const now = new Date();
@@ -4475,7 +4453,211 @@
       const cur = carouselState[productId] || 0;
       carouselGo(productId, (cur - 1 + total) % total);
     };
+
+    // ──────────────────────────────────────────────
+    //  🔍  PRODUCT ZOOM MODAL
+    // ──────────────────────────────────────────────
+    let pzoomCurrent = 0;
+    let pzoomImages = [];
+    let pzoomProductId = null;
+
+    window.openProductZoom = function(productId) {
+      const p = PRODUCTS.find(x => x.id === productId);
+      if (!p) return;
+      pzoomProductId = productId;
+
+      // Build image list
+      pzoomImages = (p.images && p.images.length > 0) ? p.images : (p.img ? [p.img] : []);
+      pzoomCurrent = 0;
+
+      // Populate image track
+      const track = document.getElementById('pzoom-img-track');
+      track.innerHTML = pzoomImages.map(url =>
+        `<img src="${url}" alt="${p.name}" class="flex-shrink-0 w-full h-full object-cover" loading="eager" style="min-width:100%">`
+      ).join('');
+      track.style.transform = 'translateX(0)';
+
+      // Dots
+      const dotsEl = document.getElementById('pzoom-dots');
+      if (pzoomImages.length > 1) {
+        dotsEl.innerHTML = pzoomImages.map((_,i) =>
+          `<button onclick="pzoomGoTo(${i})" class="w-2 h-2 rounded-full border border-white/60 transition-colors ${i===0?'bg-white':'bg-white/30'}" id="pzoom-dot-${i}"></button>`
+        ).join('');
+        document.getElementById('pzoom-prev').classList.remove('hidden');
+        document.getElementById('pzoom-next').classList.remove('hidden');
+      } else {
+        dotsEl.innerHTML = '';
+        document.getElementById('pzoom-prev').classList.add('hidden');
+        document.getElementById('pzoom-next').classList.add('hidden');
+      }
+
+      // Price
+      document.getElementById('pzoom-price').textContent = '₹' + p.price;
+      const origEl = document.getElementById('pzoom-orig-price');
+      if (p.originalPrice && p.originalPrice > p.price) {
+        origEl.textContent = '₹' + p.originalPrice;
+        origEl.classList.remove('hidden');
+      } else {
+        origEl.classList.add('hidden');
+      }
+
+      // Badge & Meta
+      document.getElementById('pzoom-badge').textContent = p.badge || '';
+      document.getElementById('pzoom-name').textContent = p.name;
+      document.getElementById('pzoom-desc').textContent = p.desc;
+
+      // Out of stock
+      const isOOS = p.outOfStock === true || !isStoreOpen;
+      document.getElementById('pzoom-oos-overlay').classList.toggle('hidden', !p.outOfStock);
+      const actionArea = document.getElementById('pzoom-action-area');
+      const oosMsg = document.getElementById('pzoom-oos-msg');
+      if (isOOS) {
+        actionArea.classList.add('hidden');
+        oosMsg.classList.remove('hidden');
+      } else {
+        actionArea.classList.remove('hidden');
+        oosMsg.classList.add('hidden');
+        // Wire action buttons
+        const cartBtn = document.getElementById('pzoom-cart-btn');
+        const buyBtn = document.getElementById('pzoom-buy-btn');
+        cartBtn.onclick = function() { addToCart(productId); closeProductZoom(); showToast(p.name + ' added to cart! 🎉'); };
+        buyBtn.onclick = function() { closeProductZoom(); buyNow(productId); };
+      }
+
+      // Extras
+      const extras = p.extras || [];
+      const extrasBlock = document.getElementById('pzoom-extras-block');
+      const extrasList = document.getElementById('pzoom-extras-list');
+      if (extras.length > 0) {
+        extrasBlock.classList.remove('hidden');
+        extrasList.innerHTML = extras.map(e =>
+          `<label class="flex items-center justify-between p-3 rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" class="accent-primary" data-extra-name="${e.name}" data-extra-price="${e.price||0}">
+              <span class="text-sm font-medium text-on-surface">${e.name}</span>
+            </div>
+            ${e.price ? `<span class="text-xs font-bold text-secondary">+₹${e.price}</span>` : ''}
+          </label>`
+        ).join('');
+      } else {
+        extrasBlock.classList.add('hidden');
+      }
+
+      // Show modal with animation
+      const modal = document.getElementById('product-zoom-modal');
+      const inner = document.getElementById('product-zoom-inner');
+      modal.classList.remove('pointer-events-none');
+      modal.classList.remove('opacity-0');
+      modal.classList.add('opacity-100');
+      inner.classList.remove('translate-y-8');
+
+      // Also show overlay
+      const overlay = document.getElementById('overlay');
+      if (overlay) overlay.classList.add('open');
+    };
+
+    window.closeProductZoom = function() {
+      const modal = document.getElementById('product-zoom-modal');
+      const inner = document.getElementById('product-zoom-inner');
+      modal.classList.add('opacity-0');
+      inner.classList.add('translate-y-8');
+      setTimeout(() => modal.classList.add('pointer-events-none'), 300);
+      const overlay = document.getElementById('overlay');
+      if (overlay) overlay.classList.remove('open');
+    };
+
+    window.pzoomGoTo = function(idx) {
+      if (idx < 0) idx = pzoomImages.length - 1;
+      if (idx >= pzoomImages.length) idx = 0;
+      pzoomCurrent = idx;
+      document.getElementById('pzoom-img-track').style.transform = `translateX(-${idx * 100}%)`;
+      document.querySelectorAll('[id^="pzoom-dot-"]').forEach((d, i) => {
+        d.className = d.className.replace(/bg-white(\/30)?/g, '');
+        d.classList.add(i === idx ? 'bg-white' : 'bg-white/30');
+      });
+    };
+
+    window.pzoomGo = function(dir) { pzoomGoTo(pzoomCurrent + dir); };
+
   </script>
+
+  <!-- ══════════════ PRODUCT ZOOM MODAL ══════════════ -->
+  <div id="product-zoom-modal"
+    class="fixed inset-0 z-[95] flex items-end md:items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
+    style="background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);">
+    <div id="product-zoom-inner"
+      class="relative w-full max-w-2xl mx-auto rounded-t-[2.5rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl translate-y-8 md:translate-y-0 transition-transform duration-400"
+      style="background:rgba(255,252,248,0.97);backdrop-filter:blur(32px);max-height:92vh;overflow-y:auto;">
+
+      <!-- Close button -->
+      <button onclick="closeProductZoom()"
+        class="absolute top-4 right-4 z-30 w-10 h-10 bg-primary/10 hover:bg-primary/20 text-primary rounded-full flex items-center justify-center transition-colors backdrop-blur-sm">
+        <span class="material-symbols-outlined text-base">close</span>
+      </button>
+
+      <!-- Image Carousel -->
+      <div class="relative w-full bg-surface-container overflow-hidden" style="height:280px;min-height:220px;">
+        <!-- Images wrapper -->
+        <div id="pzoom-img-track" class="flex h-full transition-transform duration-500" style="will-change:transform;"></div>
+        <!-- Prev/Next -->
+        <button id="pzoom-prev" onclick="pzoomGo(-1)"
+          class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/40 hover:bg-black/60 text-white rounded-full flex items-center justify-center z-10 shadow transition-colors hidden">
+          <span class="material-symbols-outlined text-base">chevron_left</span>
+        </button>
+        <button id="pzoom-next" onclick="pzoomGo(1)"
+          class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/40 hover:bg-black/60 text-white rounded-full flex items-center justify-center z-10 shadow transition-colors hidden">
+          <span class="material-symbols-outlined text-base">chevron_right</span>
+        </button>
+        <!-- Dots -->
+        <div id="pzoom-dots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10"></div>
+        <!-- Price badge -->
+        <div id="pzoom-price-badge"
+          class="absolute top-4 left-4 bg-primary text-white px-4 py-1.5 rounded-full font-black text-lg shadow-lg flex items-center gap-2 z-20">
+          <span id="pzoom-orig-price" class="line-through text-white/60 text-sm font-medium hidden"></span>
+          <span id="pzoom-price">₹0</span>
+        </div>
+        <!-- Badge label -->
+        <div id="pzoom-badge"
+          class="absolute top-4 right-12 bg-white/90 backdrop-blur text-primary px-3 py-1 rounded-full text-xs font-bold shadow z-20"></div>
+        <!-- Out of stock overlay -->
+        <div id="pzoom-oos-overlay"
+          class="absolute inset-0 bg-black/55 backdrop-blur-[2px] flex items-center justify-center z-20 hidden">
+          <span class="bg-red-600 text-white px-6 py-3 rounded-full font-black text-base uppercase tracking-wider shadow-lg flex items-center gap-2">
+            <span class="material-symbols-outlined text-lg">block</span> Out of Stock
+          </span>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="px-6 pt-5 pb-6">
+        <div class="flex items-start justify-between gap-3 mb-2">
+          <h2 id="pzoom-name" class="text-2xl md:text-3xl font-black text-primary leading-tight flex-1"></h2>
+        </div>
+        <p id="pzoom-desc" class="text-on-surface-variant text-sm md:text-base leading-relaxed mb-5"></p>
+
+        <!-- Extras (if product has extras) -->
+        <div id="pzoom-extras-block" class="hidden mb-4">
+          <p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2">Customise</p>
+          <div id="pzoom-extras-list" class="space-y-2 max-h-40 overflow-y-auto pr-1 custom-scrollbar"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div id="pzoom-action-area" class="flex gap-3 mt-auto">
+          <button id="pzoom-cart-btn"
+            class="flex-1 py-4 bg-surface-container-highest text-primary rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-outline-variant transition-colors text-sm">
+            <span class="material-symbols-outlined text-base">add_shopping_cart</span> Add to Cart
+          </button>
+          <button id="pzoom-buy-btn"
+            class="flex-1 py-4 bg-primary text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-colors text-sm">
+            <span class="material-symbols-outlined text-base">bolt</span> Buy Now
+          </button>
+        </div>
+        <div id="pzoom-oos-msg" class="hidden mt-2 py-3 bg-red-50 text-red-700 rounded-xl font-bold text-center text-sm border border-red-100">
+          <span class="material-symbols-outlined text-sm align-middle">block</span> Currently Out of Stock
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- STORE CLOSED MODAL -->
   <div id="store-closed-modal"

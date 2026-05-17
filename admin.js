@@ -18,6 +18,9 @@ try {
 }
 
 const db = firebase.firestore();
+db.enablePersistence().catch(function(err) {
+  console.warn("Firebase persistence error:", err);
+});
 const auth = firebase.auth();
 const storage = firebase.storage();
 
@@ -417,123 +420,150 @@ document.getElementById("settings-form").addEventListener("submit", async (e) =>
   e.preventDefault();
   
   const submitBtn = e.target.querySelector("button[type='submit']");
+  const btnOrigHTML = submitBtn.innerHTML;
   submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base">progress_activity</span> Saving...';
 
-  const schedule = {
-    Sun: { open: document.getElementById("sun-open").value, close: document.getElementById("sun-close").value, closedAllDay: document.getElementById("sun-closed").checked },
-    Mon: { open: document.getElementById("mon-open").value, close: document.getElementById("mon-close").value, closedAllDay: document.getElementById("mon-closed").checked },
-    Tue: { open: document.getElementById("tue-open").value, close: document.getElementById("tue-close").value, closedAllDay: document.getElementById("tue-closed").checked },
-    Wed: { open: document.getElementById("wed-open").value, close: document.getElementById("wed-close").value, closedAllDay: document.getElementById("wed-closed").checked },
-    Thu: { open: document.getElementById("thu-open").value, close: document.getElementById("thu-close").value, closedAllDay: document.getElementById("thu-closed").checked },
-    Fri: { open: document.getElementById("fri-open").value, close: document.getElementById("fri-close").value, closedAllDay: document.getElementById("fri-closed").checked },
-    Sat: { open: document.getElementById("sat-open").value, close: document.getElementById("sat-close").value, closedAllDay: document.getElementById("sat-closed").checked },
-  };
+  try {
+    // Helper: safely read time input — returns fallback if empty or invalid (browser compat fix)
+    const getTime = (id, fallback) => {
+      const el = document.getElementById(id);
+      const val = el ? el.value : '';
+      return /^\d{2}:\d{2}$/.test(val) ? val : fallback;
+    };
 
-  // Image Upload Processing
-  const progressText = document.getElementById("settings-upload-progress");
-  const filePromises = [];
-  
-  // Process Story Image
-  const storyFile = document.getElementById("set-story-file").files[0];
-  let finalStoryImg = currentSettings.storyImg || "";
-  if(storyFile) {
-     filePromises.push(compressAndGetBase64(storyFile).then(url => finalStoryImg = url));
-  }
+    const schedule = {
+      Sun: { open: getTime("sun-open", "09:00"), close: getTime("sun-close", "22:00"), closedAllDay: document.getElementById("sun-closed").checked },
+      Mon: { open: getTime("mon-open", "09:00"), close: getTime("mon-close", "22:00"), closedAllDay: document.getElementById("mon-closed").checked },
+      Tue: { open: getTime("tue-open", "09:00"), close: getTime("tue-close", "22:00"), closedAllDay: document.getElementById("tue-closed").checked },
+      Wed: { open: getTime("wed-open", "09:00"), close: getTime("wed-close", "22:00"), closedAllDay: document.getElementById("wed-closed").checked },
+      Thu: { open: getTime("thu-open", "09:00"), close: getTime("thu-close", "22:00"), closedAllDay: document.getElementById("thu-closed").checked },
+      Fri: { open: getTime("fri-open", "09:00"), close: getTime("fri-close", "22:00"), closedAllDay: document.getElementById("fri-closed").checked },
+      Sat: { open: getTime("sat-open", "09:00"), close: getTime("sat-close", "22:00"), closedAllDay: document.getElementById("sat-closed").checked },
+    };
 
-  // Process Insta Gallery
-  let finalInstaGallery = currentSettings.instaGallery ? [...currentSettings.instaGallery] : Array(6).fill("");
-  for(let i=1; i<=6; i++) {
-     const f = document.getElementById(`set-ig-${i}`).files[0];
-     if(f) {
-        filePromises.push(compressAndGetBase64(f).then(url => finalInstaGallery[i-1] = url));
-     }
-  }
-
-  // Process Collection Images (dynamic)
-  const collectionRows = document.querySelectorAll('#collections-list .collec-row');
-  let finalCollectionsData = currentSettings.collectionsData ? JSON.parse(JSON.stringify(currentSettings.collectionsData)) : [];
-  // Resize array to match current rows
-  while (finalCollectionsData.length < collectionRows.length) finalCollectionsData.push({ title: '', target: '', sub: '', img: '' });
-  finalCollectionsData = finalCollectionsData.slice(0, collectionRows.length);
-
-  collectionRows.forEach((row, idx) => {
-    finalCollectionsData[idx].title = row.querySelector('.collec-title').value;
-    finalCollectionsData[idx].target = row.querySelector('.collec-target').value;
-    finalCollectionsData[idx].sub   = row.querySelector('.collec-sub').value;
-    const imgFile = row.querySelector('.collec-img-file').files[0];
-    if (imgFile) {
-      filePromises.push(compressAndGetBase64(imgFile).then(url => finalCollectionsData[idx].img = url));
+    // Image Upload Processing
+    const filePromises = [];
+    
+    // Process Story Image
+    const storyFileEl = document.getElementById("set-story-file");
+    let finalStoryImg = currentSettings.storyImg || "";
+    if(storyFileEl && storyFileEl.files[0]) {
+       filePromises.push(compressAndGetBase64(storyFileEl.files[0]).then(url => finalStoryImg = url));
     }
-  });
 
-  // Process Customizations Data
-  const customizationRows = document.querySelectorAll('#customizations-list .customization-row');
-  let finalCustomizationsData = [];
-  customizationRows.forEach((row) => {
-    const name = row.querySelector('.cust-name').value.trim();
-    const price = row.querySelector('.cust-price').value.trim();
-    if (name) {
-      finalCustomizationsData.push({ name: name, price: price ? Number(price) : 0 });
+    // Process Insta Gallery (safely — elements may not exist if section was removed)
+    let finalInstaGallery = currentSettings.instaGallery ? [...currentSettings.instaGallery] : [];
+    for(let i=1; i<=6; i++) {
+       const el = document.getElementById(`set-ig-${i}`);
+       if(el && el.files && el.files[0]) {
+          filePromises.push(compressAndGetBase64(el.files[0]).then(url => { while(finalInstaGallery.length < i) finalInstaGallery.push(''); finalInstaGallery[i-1] = url; }));
+       }
     }
-  });
 
-  if(filePromises.length > 0) {
-     progressText.classList.remove("hidden");
-     try {
-       await Promise.all(filePromises);
-     } catch (err) {
-       alert("Error compressing images. Only valid images below maximum limits are allowed.");
-       submitBtn.disabled = false;
-       progressText.classList.add("hidden");
-       return;
-     }
-     progressText.classList.add("hidden");
-  }
+    // Process Collection Images (dynamic)
+    const collectionRows = document.querySelectorAll('#collections-list .collec-row');
+    let finalCollectionsData = currentSettings.collectionsData ? JSON.parse(JSON.stringify(currentSettings.collectionsData)) : [];
+    while (finalCollectionsData.length < collectionRows.length) finalCollectionsData.push({ title: '', target: '', sub: '', img: '' });
+    finalCollectionsData = finalCollectionsData.slice(0, collectionRows.length);
 
-  const payload = {
-    heroTitle: document.getElementById("set-hero-title").value,
-    heroSub: document.getElementById("set-hero-sub").value,
-    storyHeading: document.getElementById("set-story-heading").value,
-    storyImg: finalStoryImg,
-    instaGallery: finalInstaGallery,
-    aboutText: document.getElementById("set-about").value,
-    whatsapp: document.getElementById("set-whatsapp").value,
-    email: document.getElementById("set-email").value,
-    instagram: document.getElementById("set-instagram").value,
-    emailjs: {
-       publicKey: document.getElementById("set-emailjs-public").value,
-       serviceId: document.getElementById("set-emailjs-service").value,
-       templateId: document.getElementById("set-emailjs-template").value,
-    },
-    rewardPointsRequired: parseInt(document.getElementById("set-reward-points").value) || 600,
-    features: {
-       f1Title: document.getElementById("set-f1-title").value,
-       f1Desc: document.getElementById("set-f1-desc").value,
-       f2Title: document.getElementById("set-f2-title").value,
-       f2Desc: document.getElementById("set-f2-desc").value,
-       f3Title: document.getElementById("set-f3-title").value,
-       f3Desc: document.getElementById("set-f3-desc").value,
-       f4Title: document.getElementById("set-f4-title").value,
-       f4Desc: document.getElementById("set-f4-desc").value,
-    },
-    collectionsData: finalCollectionsData,
-    customizationsData: finalCustomizationsData,
-    schedule: schedule,
-    autoLive: document.getElementById("set-autolive").checked,
-    isOpen: document.getElementById("set-isopen").checked,
-  };
-  
-  db.collection("settings").doc("storeConfig").set(payload, { merge: true })
-    .then(() => {
-      const msg = document.getElementById("settings-msg");
-      msg.classList.remove("hidden");
-      submitBtn.disabled = false;
-      // Clear file inputs after success
-      document.getElementById("set-story-file").value = "";
-      for(let i=1; i<=6; i++) document.getElementById(`set-ig-${i}`).value = "";
-      document.querySelectorAll('#collections-list .collec-img-file').forEach(f => f.value = '');
-      setTimeout(() => msg.classList.add("hidden"), 3000);
+    collectionRows.forEach((row, idx) => {
+      finalCollectionsData[idx].title = row.querySelector('.collec-title').value;
+      finalCollectionsData[idx].target = row.querySelector('.collec-target').value;
+      finalCollectionsData[idx].sub   = row.querySelector('.collec-sub').value;
+      const imgFile = row.querySelector('.collec-img-file');
+      if (imgFile && imgFile.files[0]) {
+        filePromises.push(compressAndGetBase64(imgFile.files[0]).then(url => finalCollectionsData[idx].img = url));
+      }
     });
+
+    // Process Customizations Data
+    const customizationRows = document.querySelectorAll('#customizations-list .customization-row');
+    let finalCustomizationsData = [];
+    customizationRows.forEach((row) => {
+      const name = row.querySelector('.cust-name').value.trim();
+      const price = row.querySelector('.cust-price').value.trim();
+      if (name) {
+        finalCustomizationsData.push({ name: name, price: price ? Number(price) : 0 });
+      }
+    });
+
+    // Process images if any
+    if(filePromises.length > 0) {
+       submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base">progress_activity</span> Uploading images...';
+       await Promise.all(filePromises);
+    }
+
+    const payload = {
+      heroTitle: document.getElementById("set-hero-title").value,
+      heroSub: document.getElementById("set-hero-sub").value,
+      storyHeading: document.getElementById("set-story-heading").value,
+      storyImg: finalStoryImg,
+      instaGallery: finalInstaGallery,
+      aboutText: document.getElementById("set-about").value,
+      whatsapp: document.getElementById("set-whatsapp").value,
+      email: document.getElementById("set-email").value,
+      instagram: document.getElementById("set-instagram").value,
+      emailjs: {
+         publicKey: document.getElementById("set-emailjs-public").value,
+         serviceId: document.getElementById("set-emailjs-service").value,
+         templateId: document.getElementById("set-emailjs-template").value,
+      },
+      rewardPointsRequired: parseInt(document.getElementById("set-reward-points").value) || 600,
+      features: {
+         f1Title: document.getElementById("set-f1-title").value,
+         f1Desc: document.getElementById("set-f1-desc").value,
+         f2Title: document.getElementById("set-f2-title").value,
+         f2Desc: document.getElementById("set-f2-desc").value,
+         f3Title: document.getElementById("set-f3-title").value,
+         f3Desc: document.getElementById("set-f3-desc").value,
+         f4Title: document.getElementById("set-f4-title").value,
+         f4Desc: document.getElementById("set-f4-desc").value,
+      },
+      collectionsData: finalCollectionsData,
+      customizationsData: finalCustomizationsData,
+      schedule: schedule,
+      autoLive: document.getElementById("set-autolive").checked,
+      isOpen: document.getElementById("set-isopen").checked,
+    };
+    
+    // Save to Firestore
+    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base">progress_activity</span> Applying to website...';
+    await db.collection("settings").doc("storeConfig").set(payload, { merge: true });
+
+    // SUCCESS
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined text-base">check_circle</span> Saved Successfully!';
+    submitBtn.classList.remove("bg-primary");
+    submitBtn.classList.add("bg-green-600");
+    
+    const msg = document.getElementById("settings-msg");
+    msg.classList.remove("hidden");
+    
+    // Clear file inputs after success
+    if(storyFileEl) storyFileEl.value = "";
+    document.querySelectorAll('#collections-list .collec-img-file').forEach(f => f.value = '');
+    
+    setTimeout(() => {
+      msg.classList.add("hidden");
+      submitBtn.innerHTML = btnOrigHTML;
+      submitBtn.classList.add("bg-primary");
+      submitBtn.classList.remove("bg-green-600");
+    }, 3000);
+
+  } catch (err) {
+    console.error("Settings save error:", err);
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined text-base">error</span> Save Failed — Try Again';
+    submitBtn.classList.remove("bg-primary");
+    submitBtn.classList.add("bg-red-600");
+    alert("❌ Failed to save settings!\n\nError: " + (err.message || err) + "\n\nPlease check your internet connection and try again.");
+    setTimeout(() => {
+      submitBtn.innerHTML = btnOrigHTML;
+      submitBtn.classList.add("bg-primary");
+      submitBtn.classList.remove("bg-red-600");
+    }, 4000);
+  }
 });
 
 // ──────────────────────────────────────────────
@@ -543,87 +573,101 @@ document.getElementById("settings-form").addEventListener("submit", async (e) =>
 document.getElementById("offers-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const submitBtn = e.target.querySelector("button[type='submit']");
+  const btnOrigHTML = submitBtn.innerHTML;
   submitBtn.disabled = true;
-  const progressText = document.getElementById("offers-upload-progress");
+  submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base">progress_activity</span> Saving...';
 
-  let finalPopupMedia = currentSettings.popup ? (currentSettings.popup.media || "") : "";
-  const mediaFileInput = document.getElementById("set-popup-media-file");
-  const filePromises = [];
+  try {
+    let finalPopupMedia = currentSettings.popup ? (currentSettings.popup.media || "") : "";
+    const mediaFileInput = document.getElementById("set-popup-media-file");
 
-  if (mediaFileInput && mediaFileInput.files[0]) {
-    filePromises.push(compressAndGetBase64(mediaFileInput.files[0]).then(url => finalPopupMedia = url));
+    if (mediaFileInput && mediaFileInput.files[0]) {
+      submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base">progress_activity</span> Uploading media...';
+      finalPopupMedia = await compressAndGetBase64(mediaFileInput.files[0]);
+    }
+
+    const payload = {
+      popup: {
+        enabled: document.getElementById("set-popup-enable").checked,
+        title: document.getElementById("set-popup-title").value,
+        media: finalPopupMedia,
+        message: document.getElementById("set-popup-message").value,
+        btnText: document.getElementById("set-popup-btn-text").value,
+        btnLink: document.getElementById("set-popup-btn-link").value,
+        promoCode: document.getElementById("set-popup-promo-code").value.toUpperCase().trim(),
+      },
+    };
+
+    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base">progress_activity</span> Applying...';
+    await db.collection("settings").doc("storeConfig").set(payload, { merge: true });
+
+    // SUCCESS
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined text-base">check_circle</span> Saved!';
+    submitBtn.classList.remove("bg-primary"); submitBtn.classList.add("bg-green-600");
+    const msg = document.getElementById("offers-msg");
+    msg.classList.remove("hidden");
+    if (mediaFileInput) mediaFileInput.value = "";
+    setTimeout(() => { msg.classList.add("hidden"); submitBtn.innerHTML = btnOrigHTML; submitBtn.classList.add("bg-primary"); submitBtn.classList.remove("bg-green-600"); }, 3000);
+
+  } catch (err) {
+    console.error("Popup save error:", err);
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined text-base">error</span> Failed — Try Again';
+    submitBtn.classList.remove("bg-primary"); submitBtn.classList.add("bg-red-600");
+    alert("❌ Failed to save popup settings!\n\nError: " + (err.message || err));
+    setTimeout(() => { submitBtn.innerHTML = btnOrigHTML; submitBtn.classList.add("bg-primary"); submitBtn.classList.remove("bg-red-600"); }, 4000);
   }
-
-  if (filePromises.length > 0) {
-    progressText.classList.remove("hidden");
-    try { await Promise.all(filePromises); }
-    catch (err) { alert("Upload failed: " + err); submitBtn.disabled = false; progressText.classList.add("hidden"); return; }
-    progressText.classList.add("hidden");
-  }
-
-  const payload = {
-    popup: {
-      enabled: document.getElementById("set-popup-enable").checked,
-      title: document.getElementById("set-popup-title").value,
-      media: finalPopupMedia,
-      message: document.getElementById("set-popup-message").value,
-      btnText: document.getElementById("set-popup-btn-text").value,
-      btnLink: document.getElementById("set-popup-btn-link").value,
-      promoCode: document.getElementById("set-popup-promo-code").value.toUpperCase().trim(),
-    },
-  };
-
-  db.collection("settings").doc("storeConfig").set(payload, { merge: true })
-    .then(() => {
-      const msg = document.getElementById("offers-msg");
-      msg.classList.remove("hidden");
-      submitBtn.disabled = false;
-      if (mediaFileInput) mediaFileInput.value = "";
-      setTimeout(() => msg.classList.add("hidden"), 3000);
-    });
 });
 
 // ── SPIN & WIN FORM (own tab) ───────────────────────────
 document.getElementById("spinwin-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const submitBtn = e.target.querySelector("button[type='submit']");
+  const btnOrigHTML = submitBtn.innerHTML;
   submitBtn.disabled = true;
-  const progressText = document.getElementById("spinwin-upload-progress");
+  submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base">progress_activity</span> Saving...';
 
-  let finalWheelImg = currentSettings.spinWheel ? (currentSettings.spinWheel.wheelImg || "") : "";
-  const wheelImgInput = document.getElementById("set-spin-wheel-img");
-  const filePromises = [];
+  try {
+    let finalWheelImg = currentSettings.spinWheel ? (currentSettings.spinWheel.wheelImg || "") : "";
+    const wheelImgInput = document.getElementById("set-spin-wheel-img");
 
-  if (wheelImgInput && wheelImgInput.files[0]) {
-    filePromises.push(compressAndGetBase64(wheelImgInput.files[0], 600).then(url => finalWheelImg = url));
+    if (wheelImgInput && wheelImgInput.files[0]) {
+      submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base">progress_activity</span> Uploading wheel image...';
+      finalWheelImg = await compressAndGetBase64(wheelImgInput.files[0], 600);
+    }
+
+    const payload = {
+      spinWheel: {
+        enabled: document.getElementById("set-spin-enable").checked,
+        rewards: document.getElementById("set-spin-rewards").value,
+        ctaText: document.getElementById("set-spin-cta").value || "Spin to Get Offer!",
+        wheelImg: finalWheelImg,
+        instaLink: document.getElementById("set-spin-insta-link").value.trim(),
+        popupDelay: parseInt(document.getElementById("set-spin-popup-delay").value) || 0,
+      },
+    };
+
+    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base">progress_activity</span> Applying...';
+    await db.collection("settings").doc("storeConfig").set(payload, { merge: true });
+
+    // SUCCESS
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined text-base">check_circle</span> Saved!';
+    submitBtn.classList.remove("bg-primary"); submitBtn.classList.add("bg-green-600");
+    const msg = document.getElementById("spinwin-msg");
+    msg.classList.remove("hidden");
+    if (wheelImgInput) wheelImgInput.value = "";
+    setTimeout(() => { msg.classList.add("hidden"); submitBtn.innerHTML = btnOrigHTML; submitBtn.classList.add("bg-primary"); submitBtn.classList.remove("bg-green-600"); }, 3000);
+
+  } catch (err) {
+    console.error("Spin & Win save error:", err);
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined text-base">error</span> Failed — Try Again';
+    submitBtn.classList.remove("bg-primary"); submitBtn.classList.add("bg-red-600");
+    alert("❌ Failed to save Spin & Win settings!\n\nError: " + (err.message || err));
+    setTimeout(() => { submitBtn.innerHTML = btnOrigHTML; submitBtn.classList.add("bg-primary"); submitBtn.classList.remove("bg-red-600"); }, 4000);
   }
-
-  if (filePromises.length > 0) {
-    progressText.classList.remove("hidden");
-    try { await Promise.all(filePromises); }
-    catch (err) { alert("Upload failed: " + err); submitBtn.disabled = false; progressText.classList.add("hidden"); return; }
-    progressText.classList.add("hidden");
-  }
-
-  const payload = {
-    spinWheel: {
-      enabled: document.getElementById("set-spin-enable").checked,
-      rewards: document.getElementById("set-spin-rewards").value,
-      ctaText: document.getElementById("set-spin-cta").value || "Spin to Get Offer!",
-      wheelImg: finalWheelImg,
-      instaLink: document.getElementById("set-spin-insta-link").value.trim(),
-      popupDelay: parseInt(document.getElementById("set-spin-popup-delay").value) || 0,
-    },
-  };
-
-  db.collection("settings").doc("storeConfig").set(payload, { merge: true })
-    .then(() => {
-      const msg = document.getElementById("spinwin-msg");
-      msg.classList.remove("hidden");
-      submitBtn.disabled = false;
-      if (wheelImgInput) wheelImgInput.value = "";
-      setTimeout(() => msg.classList.add("hidden"), 3000);
-    });
 });
 
 // ── Dynamic Collections Helpers ──────────────────────────────────
