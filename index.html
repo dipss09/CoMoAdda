@@ -4837,15 +4837,24 @@
       document.getElementById('pzoom-name').textContent = p.name;
       document.getElementById('pzoom-desc').textContent = p.desc;
 
-      // Out of stock
-      const isOOS = p.outOfStock === true || !isStoreOpen;
-      document.getElementById('pzoom-oos-overlay').classList.toggle('hidden', !p.outOfStock);
+      // Out of stock or Store closed
       const actionArea = document.getElementById('pzoom-action-area');
       const oosMsg = document.getElementById('pzoom-oos-msg');
-      if (isOOS) {
+      
+      if (!isStoreOpen) {
+        document.getElementById('pzoom-oos-overlay').classList.add('hidden'); // Ensure no blur
         actionArea.classList.add('hidden');
-        oosMsg.classList.remove('hidden');
+        oosMsg.innerHTML = '<span class="material-symbols-outlined text-base align-middle">schedule</span> Store is Currently Closed';
+        oosMsg.classList.remove('hidden', 'text-red-700', 'bg-red-50', 'border-red-100');
+        oosMsg.classList.add('text-secondary', 'bg-surface-container', 'border-outline/20');
+      } else if (p.outOfStock) {
+        document.getElementById('pzoom-oos-overlay').classList.remove('hidden');
+        actionArea.classList.add('hidden');
+        oosMsg.innerHTML = '<span class="material-symbols-outlined text-base align-middle">error</span> Out of Stock';
+        oosMsg.classList.remove('hidden', 'text-secondary', 'bg-surface-container', 'border-outline/20');
+        oosMsg.classList.add('text-red-700', 'bg-red-50', 'border-red-100');
       } else {
+        document.getElementById('pzoom-oos-overlay').classList.add('hidden');
         actionArea.classList.remove('hidden');
         oosMsg.classList.add('hidden');
         // Wire action buttons
