@@ -2161,11 +2161,7 @@
               <span class="material-symbols-outlined text-[14px] md:text-lg">block</span> Out of Stock
             </span>
           </div>` : ''}
-          ${(!isStoreOpen) ? `<div class="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center z-20 rounded-lg md:rounded-2xl">
-            <span class="bg-surface-container text-secondary border border-outline/20 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full text-[11px] md:text-base font-black uppercase tracking-wider shadow-lg flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-[14px] md:text-lg">schedule</span> Store Closed
-            </span>
-          </div>` : ''}
+
         </div>
         <h3 class="text-xs md:text-2xl font-bold ${isOutOfStock && isStoreOpen ? 'text-outline line-through' : 'text-primary'} mb-0.5 md:mb-2 leading-tight truncate">${p.name}</h3>
         <p class="text-on-surface-variant text-[10px] md:text-sm mb-2 md:mb-6 flex-1 line-clamp-2 md:line-clamp-none leading-snug">${p.desc}</p>
