@@ -2156,15 +2156,25 @@
              ₹${p.price}
           </div>
           <div class="absolute top-1 left-1 md:top-4 md:left-4 bg-white/90 backdrop-blur text-primary px-1.5 py-0.5 md:px-3 md:py-1 rounded-full text-[9px] md:text-xs font-bold shadow">${p.badge}</div>
-          ${isOutOfStock ? `<div class="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center z-20 rounded-lg md:rounded-2xl">
+          ${(isOutOfStock && isStoreOpen) ? `<div class="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center z-20 rounded-lg md:rounded-2xl">
             <span class="bg-red-600 text-white px-3 py-1.5 md:px-5 md:py-2.5 rounded-full text-[11px] md:text-base font-black uppercase tracking-wider shadow-lg flex items-center gap-1.5">
               <span class="material-symbols-outlined text-[14px] md:text-lg">block</span> Out of Stock
             </span>
           </div>` : ''}
+          ${(!isStoreOpen) ? `<div class="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center z-20 rounded-lg md:rounded-2xl">
+            <span class="bg-surface-container text-secondary border border-outline/20 px-3 py-1.5 md:px-5 md:py-2.5 rounded-full text-[11px] md:text-base font-black uppercase tracking-wider shadow-lg flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[14px] md:text-lg">schedule</span> Store Closed
+            </span>
+          </div>` : ''}
         </div>
-        <h3 class="text-xs md:text-2xl font-bold ${isOutOfStock ? 'text-outline line-through' : 'text-primary'} mb-0.5 md:mb-2 leading-tight truncate">${p.name}</h3>
+        <h3 class="text-xs md:text-2xl font-bold ${isOutOfStock && isStoreOpen ? 'text-outline line-through' : 'text-primary'} mb-0.5 md:mb-2 leading-tight truncate">${p.name}</h3>
         <p class="text-on-surface-variant text-[10px] md:text-sm mb-2 md:mb-6 flex-1 line-clamp-2 md:line-clamp-none leading-snug">${p.desc}</p>
-        ${isOutOfStock ? `
+        ${!isStoreOpen ? `
+        <div class="mt-auto">
+          <div class="w-full py-1.5 md:py-4 bg-surface-container text-secondary rounded-lg md:rounded-xl font-black uppercase tracking-wide flex items-center justify-center gap-1 md:gap-2 text-[10px] md:text-base cursor-not-allowed border border-outline/20">
+            <span class="material-symbols-outlined text-[12px] md:text-base">schedule</span> Store Closed
+          </div>
+        </div>` : isOutOfStock ? `
         <div class="mt-auto">
           <div class="w-full py-1.5 md:py-4 bg-red-100 text-red-700 rounded-lg md:rounded-xl font-black uppercase tracking-wide flex items-center justify-center gap-1 md:gap-2 text-[10px] md:text-base cursor-not-allowed border border-red-200">
             <span class="material-symbols-outlined text-[12px] md:text-base">block</span> Out of Stock
