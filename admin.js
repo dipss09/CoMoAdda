@@ -80,6 +80,8 @@ function switchTab(tabId) {
     if(btn) {
       btn.classList.remove("bg-primary", "text-white");
       btn.classList.add("text-on-surface-variant", "hover:bg-surface-container-highest");
+      btn.style.backgroundColor = "";
+      btn.style.color = "";
     }
   });
   

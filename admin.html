@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CoMoAdda | Admin Dashboard</title>
-  <script defer src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
   <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
@@ -91,7 +91,7 @@
         <span class="text-[10px] md:text-xs font-bold text-secondary uppercase tracking-widest">Admin Panel</span>
       </div>
       <nav class="flex-1 p-2 md:p-4 space-y-1 md:space-y-2 overflow-x-auto md:overflow-x-visible flex md:flex-col gap-2 md:gap-0">
-        <button onclick="switchTab('orders')" id="tab-btn-orders" class="whitespace-nowrap md:w-full text-left px-3 md:px-4 py-2 md:py-3 rounded-xl text-sm md:text-base font-bold flex items-center gap-2 md:gap-3 bg-primary text-white transition-colors"><span class="material-symbols-outlined text-sm md:text-base">receipt_long</span> Orders</button>
+        <button onclick="switchTab('orders')" id="tab-btn-orders" class="whitespace-nowrap md:w-full text-left px-3 md:px-4 py-2 md:py-3 rounded-xl text-sm md:text-base font-bold flex items-center gap-2 md:gap-3 bg-primary text-white transition-colors" style="background-color: #331917; color: #ffffff;"><span class="material-symbols-outlined text-sm md:text-base">receipt_long</span> Orders</button>
         <button onclick="switchTab('sales')" id="tab-btn-sales" class="whitespace-nowrap md:w-full text-left px-3 md:px-4 py-2 md:py-3 rounded-xl text-sm md:text-base font-bold flex items-center gap-2 md:gap-3 text-on-surface-variant hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined text-sm md:text-base">bar_chart</span> Sales Tracking</button>
         <button onclick="switchTab('products')" id="tab-btn-products" class="whitespace-nowrap md:w-full text-left px-3 md:px-4 py-2 md:py-3 rounded-xl text-sm md:text-base font-bold flex items-center gap-2 md:gap-3 text-on-surface-variant hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined text-sm md:text-base">inventory_2</span> Products</button>
         <button onclick="switchTab('reviews')" id="tab-btn-reviews" class="whitespace-nowrap md:w-full text-left px-3 md:px-4 py-2 md:py-3 rounded-xl text-sm md:text-base font-bold flex items-center gap-2 md:gap-3 text-on-surface-variant hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined text-sm md:text-base">reviews</span> Reviews</button>
