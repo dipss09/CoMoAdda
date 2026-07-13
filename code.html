@@ -3,7 +3,9 @@
 <html class="scroll-smooth" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>BrewDipu | Artisanal Chill</title>
+<title>CoMoAdda | Artisanal Chill</title>
+<meta name="description" content="CoMoAdda - Order premium artisanal cold brews, mojitos, fresh juices and handmade keychains. Shop the best craft coffee and beverages now." />
+<meta name="keywords" content="comoadda, CoMoAdda, coffee, artisanal cold brew, cold coffee, mojito, handcrafted sips, homemade beverages, Dipu, fresh juice, keychains, brewdipu" />
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800;900&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -106,8 +108,8 @@
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(10deg); }
         }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .animate-float-delayed { animation: float 8s ease-in-out infinite 1s; }
+        .animate-float transform-gpu { animation: float 6s ease-in-out infinite; }
+        .animate-float transform-gpu-delayed { animation: float 8s ease-in-out infinite 1s; }
     </style>
 </head>
 <body class="bg-surface text-on-surface selection:bg-tertiary-fixed selection:text-on-tertiary-fixed">
@@ -115,7 +117,9 @@
 <!-- Navigation -->
 <nav class="fixed top-0 w-full z-50 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl shadow-[0_40px_40px_rgba(51,25,23,0.06)]">
 <div class="flex justify-between items-center w-full px-8 py-4 max-w-7xl mx-auto">
-<a class="text-2xl font-black text-stone-900 dark:text-stone-50 tracking-tighter" href="#" style="">BrewDipu</a>
+<a class="flex items-center" href="#" style="">
+    <img loading="lazy"  src="logo.png" alt="CoMo Adda" class="h-12 w-auto object-contain drop-shadow-md" />
+</a>
 <div class="hidden md:flex space-x-8 items-center">
 <a class="text-stone-900 dark:text-stone-50 font-bold border-b-2 border-stone-900 dark:border-stone-50 pb-1 hover:scale-105 transition-transform duration-300 ease-out" href="#home" style="">Home</a>
 <a class="text-stone-600 dark:text-stone-400 font-medium hover:text-stone-900 dark:hover:text-stone-200 hover:scale-105 transition-transform duration-300 ease-out" href="#categories" style="">Categories</a>
@@ -132,13 +136,13 @@
 <!-- Hero Section -->
 <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden hero-gradient" id="home">
 <div class="absolute inset-0 opacity-20 pointer-events-none">
-<div class="absolute top-1/4 left-1/4 w-32 h-32 bg-tertiary-fixed rounded-xl animate-float opacity-40 blur-xl"></div>
-<div class="absolute bottom-1/4 right-1/4 w-48 h-48 bg-primary-container rounded-full animate-float-delayed opacity-30 blur-2xl"></div>
+<div class="absolute top-1/4 left-1/4 w-32 h-32 bg-tertiary-fixed rounded-xl animate-float transform-gpu opacity-40 blur-xl"></div>
+<div class="absolute bottom-1/4 right-1/4 w-48 h-48 bg-primary-container rounded-full animate-float transform-gpu-delayed opacity-30 blur-2xl"></div>
 </div>
 <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center gap-12 z-10">
 <div class="flex-1 text-center md:text-left">
 <h1 class="text-6xl md:text-8xl font-black text-white leading-tight tracking-tighter mb-4" style="">
-                    BrewDipu
+                    CoMoAdda
                 </h1>
 <p class="text-xl md:text-2xl text-tertiary-fixed font-medium mb-10 max-w-xl" style="">
                     Chilled Sips, Crafted by Dipu. Experience the editorial precision of artisanal cold brews.
@@ -155,10 +159,10 @@
 <div class="flex-1 relative">
 <div class="relative w-full aspect-square max-w-md mx-auto">
 <!-- Floating Ice Cubes Elements -->
-<div class="absolute -top-10 -right-10 w-24 h-24 glass-card rounded-2xl animate-float flex items-center justify-center">
+<div class="absolute -top-10 -right-10 w-24 h-24 glass-card rounded-2xl animate-float transform-gpu flex items-center justify-center">
 <span class="material-symbols-outlined text-4xl text-tertiary" style="">ac_unit</span>
 </div>
-<div class="absolute -bottom-6 -left-12 w-32 h-32 glass-card rounded-full animate-float-delayed flex items-center justify-center">
+<div class="absolute -bottom-6 -left-12 w-32 h-32 glass-card rounded-full animate-float transform-gpu-delayed flex items-center justify-center">
 <span class="material-symbols-outlined text-5xl text-primary" style="">coffee</span>
 </div>
 </div>
@@ -175,7 +179,7 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 <!-- Cold Coffee -->
 <div class="group relative overflow-hidden rounded-xl h-[400px] cursor-pointer hover:-translate-y-2 transition-transform duration-500 shadow-lg">
-<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Frothy artisanal cold coffee poured into a glass with chocolate shavings on top, editorial style photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDJ8-MB77oQZ1mV-b9AmxdsbpMWbqMhZpfXXzB1JYbu-F4_R9GKw8bnh1UuHQkyGAn5I2aQpiAw2cQYbQ3SrWnN8GTncLo7bBXm4HcTGZv4Wx0zMHWBNZ2pR6a7sPgcT4kDvT_Va0Xns-WTU77VSaOGbPT0IgmVzEZR6uCMD8oF5pr-J2GXxXN3Y23f9MNuG0J2muGzAg0J_l3MM-fIkyiRudYagjXeltOIsKPrvwkVg2lHE4rRU6QA99Xz7M8fConEOc2YulZ4g8" style=""/>
+<img loading="lazy"  class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Frothy artisanal cold coffee poured into a glass with chocolate shavings on top, editorial style photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDJ8-MB77oQZ1mV-b9AmxdsbpMWbqMhZpfXXzB1JYbu-F4_R9GKw8bnh1UuHQkyGAn5I2aQpiAw2cQYbQ3SrWnN8GTncLo7bBXm4HcTGZv4Wx0zMHWBNZ2pR6a7sPgcT4kDvT_Va0Xns-WTU77VSaOGbPT0IgmVzEZR6uCMD8oF5pr-J2GXxXN3Y23f9MNuG0J2muGzAg0J_l3MM-fIkyiRudYagjXeltOIsKPrvwkVg2lHE4rRU6QA99Xz7M8fConEOc2YulZ4g8" style=""/>
 <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
 <div class="absolute bottom-6 left-6 text-white">
 <h3 class="text-2xl font-bold" style="">Cold Coffee</h3>
@@ -184,7 +188,7 @@
 </div>
 <!-- Mojito -->
 <div class="group relative overflow-hidden rounded-xl h-[400px] cursor-pointer hover:-translate-y-2 transition-transform duration-500 shadow-lg">
-<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Vibrant green mojito with fresh mint leaves and lime slices in a chilled glass with crushed ice" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIbu4pVrBpC4JKLBYc7_JNZNQWFN8BJvdlWwYzuHmrHzBFF0-0sdFGwF96rWBep6yxNuT1sJHJwCWk7xnIdcj99SfUG6B7EFebbT4EGTRmEBnHzjTSffi-23_a0lb0WKW2g8lbsXs5gATd8Nzv2jbfyaVKh9mqCu6T_m8g6tM3DzdswvldKADfcIhTbwtqQMbsS2C0Nn63pLkMAKcDNo0e2w0I7mRVdUU3fQsLO5Nf4QAINsPeAWPLpTQ023tK-lGW4BOXuyi1xv4" style=""/>
+<img loading="lazy"  class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Vibrant green mojito with fresh mint leaves and lime slices in a chilled glass with crushed ice" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIbu4pVrBpC4JKLBYc7_JNZNQWFN8BJvdlWwYzuHmrHzBFF0-0sdFGwF96rWBep6yxNuT1sJHJwCWk7xnIdcj99SfUG6B7EFebbT4EGTRmEBnHzjTSffi-23_a0lb0WKW2g8lbsXs5gATd8Nzv2jbfyaVKh9mqCu6T_m8g6tM3DzdswvldKADfcIhTbwtqQMbsS2C0Nn63pLkMAKcDNo0e2w0I7mRVdUU3fQsLO5Nf4QAINsPeAWPLpTQ023tK-lGW4BOXuyi1xv4" style=""/>
 <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
 <div class="absolute bottom-6 left-6 text-white">
 <h3 class="text-2xl font-bold" style="">Mojito</h3>
@@ -193,7 +197,7 @@
 </div>
 <!-- Juices -->
 <div class="group relative overflow-hidden rounded-xl h-[400px] cursor-pointer hover:-translate-y-2 transition-transform duration-500 shadow-lg">
-<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Freshly squeezed orange juice in a minimalist glass bottle on a sunlit wooden table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIntQ-ubtNMEvijaYU5lNeNGFs8vLYNcKKN9H3CmkVMycEJRm1vfNBYI2le0aZqU682HqK-s_l-1zhg7FMcY7_HigBSIYacu36QvRKe4jMvXqPbC4HhiS-KUruCZgVS7Sdmx_ca3r6Shf2H0W_CxMaP3dHqgU4yBuEu5Q5PLFGbvpjf4acHMBJfMl8IgRZ1tWJ25ovHLS2omkedNxpNxgZ_XJsPQUS6rVwGS-ZHDmEBokWR5Xx-xKWA9ueCdtcRHsInH91b63VGJY" style=""/>
+<img loading="lazy"  class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Freshly squeezed orange juice in a minimalist glass bottle on a sunlit wooden table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIntQ-ubtNMEvijaYU5lNeNGFs8vLYNcKKN9H3CmkVMycEJRm1vfNBYI2le0aZqU682HqK-s_l-1zhg7FMcY7_HigBSIYacu36QvRKe4jMvXqPbC4HhiS-KUruCZgVS7Sdmx_ca3r6Shf2H0W_CxMaP3dHqgU4yBuEu5Q5PLFGbvpjf4acHMBJfMl8IgRZ1tWJ25ovHLS2omkedNxpNxgZ_XJsPQUS6rVwGS-ZHDmEBokWR5Xx-xKWA9ueCdtcRHsInH91b63VGJY" style=""/>
 <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
 <div class="absolute bottom-6 left-6 text-white">
 <h3 class="text-2xl font-bold" style="">Juices</h3>
@@ -202,7 +206,7 @@
 </div>
 <!-- Keychains -->
 <div class="group relative overflow-hidden rounded-xl h-[400px] cursor-pointer hover:-translate-y-2 transition-transform duration-500 shadow-lg">
-<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Handcrafted miniature coffee cup keychains with intricate artisanal details sitting on a velvet cloth" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnZtVTFJ5xjRw9nN1B4hHvVaZeV1foMgQK_gzJONI8nWA-9zgOIGvps36pKh3ZknwjWjRGYn0ldsK-SHIe_PJs8l-REu3lRf3HxNuE1o8ZoQCEDH7G79naIkyRqH8s2JsplIEaH8C1fEPs2H9rGgm0BjtCkFyfL0c_ZGkfsXtqSWx19Z_VyRiuoWgIRWe8aSeKgR9VWiYZNXVFf9R540IHqwjh6PIqgBKC_q_d2bHJ7W1_0FCWfaKNE_ijIe6BDLqJv7nkw9vOMLY" style=""/>
+<img loading="lazy"  class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Handcrafted miniature coffee cup keychains with intricate artisanal details sitting on a velvet cloth" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnZtVTFJ5xjRw9nN1B4hHvVaZeV1foMgQK_gzJONI8nWA-9zgOIGvps36pKh3ZknwjWjRGYn0ldsK-SHIe_PJs8l-REu3lRf3HxNuE1o8ZoQCEDH7G79naIkyRqH8s2JsplIEaH8C1fEPs2H9rGgm0BjtCkFyfL0c_ZGkfsXtqSWx19Z_VyRiuoWgIRWe8aSeKgR9VWiYZNXVFf9R540IHqwjh6PIqgBKC_q_d2bHJ7W1_0FCWfaKNE_ijIe6BDLqJv7nkw9vOMLY" style=""/>
 <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
 <div class="absolute bottom-6 left-6 text-white">
 <h3 class="text-2xl font-bold" style="">Keychains</h3>
@@ -229,38 +233,53 @@
 <!-- Product 1 -->
 <div class="glass-card p-6 rounded-[2rem] hover:-translate-y-4 transition-all duration-500 group">
 <div class="relative mb-8 aspect-square rounded-2xl overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Delicious caramel latte with thick foam and caramel drizzle in a clear glass on a white surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI6bqWnV0eVhM2O80smaAPhKZFI-FT2yStUZg6x25CTYRxKrbJ1_EwiHqdP-z2JAEh2Mt7M2UpaTqeRv9LxGfMNVWc7FpvlFou7uMSgpPSwIOi78vmSOQUm2sGZ6v63p3hXSWx14igFVv4hqozF6Gyr39eGd1AF-A6uwlFvWbF474rnHGS3GIaTQS0JKPKXkt7JlPCLnfkTEBkMF9JXzO4BUPdhR1rCIt8qhN-bC4F188wKXgwMPNk35lW-EsHKE7fdTJVNzetQNY" style=""/>
+<img loading="lazy"  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Delicious caramel latte with thick foam and caramel drizzle in a clear glass on a white surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI6bqWnV0eVhM2O80smaAPhKZFI-FT2yStUZg6x25CTYRxKrbJ1_EwiHqdP-z2JAEh2Mt7M2UpaTqeRv9LxGfMNVWc7FpvlFou7uMSgpPSwIOi78vmSOQUm2sGZ6v63p3hXSWx14igFVv4hqozF6Gyr39eGd1AF-A6uwlFvWbF474rnHGS3GIaTQS0JKPKXkt7JlPCLnfkTEBkMF9JXzO4BUPdhR1rCIt8qhN-bC4F188wKXgwMPNk35lW-EsHKE7fdTJVNzetQNY" style=""/>
 <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg" style="">₹149</div>
 </div>
 <h3 class="text-2xl font-bold text-primary mb-2" style="">Caramel Cloud Cold Brew</h3>
 <p class="text-on-surface-variant text-sm mb-6" style="">Velvety foam layered over our signature 18-hour steep, finished with house-made caramel.</p>
-<button class="w-full py-4 bg-primary text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-colors group" style="">
-                        Add to Cart <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" style="">arrow_forward</span>
-</button>
+<div class="flex gap-2 mt-auto">
+    <button class="flex-1 py-4 bg-surface-container-highest text-primary rounded-xl font-black uppercase tracking-wide flex items-center justify-center gap-2 hover:bg-outline-variant transition-colors group" style="">
+                            + Cart <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" style="">add_shopping_cart</span>
+    </button>
+    <button class="flex-[1.5] py-4 bg-primary text-white rounded-xl font-black uppercase tracking-wide flex items-center justify-center gap-2 hover:bg-primary-container transition-colors group" style="">
+                            Buy Now <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" style="">bolt</span>
+    </button>
+</div>
 </div>
 <!-- Product 2 -->
 <div class="glass-card p-6 rounded-[2rem] hover:-translate-y-4 transition-all duration-500 group">
 <div class="relative mb-8 aspect-square rounded-2xl overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Two colorful fruit-infused mojitos with strawberries and mint in crystal glasses with condensation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5LGsFaMQsbTUvg6V0D9fspBYiroXPnhIbkT37XKWHjwMf9BIfuCCe78eBxUOYHN3xEgnW7qQnjxTwyCE_9Zsq69yNdR-kUUY4x-8mRStukBAaPwTf2ZgUruX_LsOvfsVECUn-sPF5bbXsWHb5oY-Q4pgjqhKMK3P5M3mKZDBuQTKjfnASrQXPqLjT4Q7k2MpDCBs6ahJBjJVLaIawepdF2dEgNw9Nk17nOrxk7d8KDka1E0CyK68YVfDNUM2r1BoR_PknTYJmw3U" style=""/>
+<img loading="lazy"  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Two colorful fruit-infused mojitos with strawberries and mint in crystal glasses with condensation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5LGsFaMQsbTUvg6V0D9fspBYiroXPnhIbkT37XKWHjwMf9BIfuCCe78eBxUOYHN3xEgnW7qQnjxTwyCE_9Zsq69yNdR-kUUY4x-8mRStukBAaPwTf2ZgUruX_LsOvfsVECUn-sPF5bbXsWHb5oY-Q4pgjqhKMK3P5M3mKZDBuQTKjfnASrQXPqLjT4Q7k2MpDCBs6ahJBjJVLaIawepdF2dEgNw9Nk17nOrxk7d8KDka1E0CyK68YVfDNUM2r1BoR_PknTYJmw3U" style=""/>
 <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg" style="">₹129</div>
 </div>
 <h3 class="text-2xl font-bold text-primary mb-2" style="">Midnight Mojito</h3>
 <p class="text-on-surface-variant text-sm mb-6" style="">Deep berry infusion with muddled garden mint and a sharp citrus kick. Refreshment redefined.</p>
-<button class="w-full py-4 bg-primary text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-colors group" style="">
-                        Add to Cart <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" style="">arrow_forward</span>
-</button>
+<div class="flex gap-2 mt-auto">
+    <button class="flex-1 py-4 bg-surface-container-highest text-primary rounded-xl font-black uppercase tracking-wide flex items-center justify-center gap-2 hover:bg-outline-variant transition-colors group" style="">
+                            + Cart <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" style="">add_shopping_cart</span>
+    </button>
+    <button class="flex-[1.5] py-4 bg-primary text-white rounded-xl font-black uppercase tracking-wide flex items-center justify-center gap-2 hover:bg-primary-container transition-colors group" style="">
+                            Buy Now <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" style="">bolt</span>
+    </button>
+</div>
 </div>
 <!-- Product 3 -->
 <div class="glass-card p-6 rounded-[2rem] hover:-translate-y-4 transition-all duration-500 group">
 <div class="relative mb-8 aspect-square rounded-2xl overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close-up of a tiny detailed handmade resin keychain shaped like a donut and coffee set" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBg3px03BErm9fszHgQXGvDPcbasCwngej2BR1hOvOJz-oIK-Qcv24uy-LPv5ElFxx5yMIBXk2zBpxoCthQ6USl864ekLf00Kx4HtayCXVIftcWap9plu7XwLUdVU8wM7LftQfza51WviuznGClnw0i2SCwXQqFCRKkb3Vmwci-2qgmFL3VH2KYks33BH8dCOVh9thysVhPVm9S6pPzB0tppaCuB2narmQlLTezsJsMhCD_Tt-27kwXGyEIDlSJ7_XqAEbSX-Q99LM" style=""/>
+<img loading="lazy"  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close-up of a tiny detailed handmade resin keychain shaped like a donut and coffee set" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBg3px03BErm9fszHgQXGvDPcbasCwngej2BR1hOvOJz-oIK-Qcv24uy-LPv5ElFxx5yMIBXk2zBpxoCthQ6USl864ekLf00Kx4HtayCXVIftcWap9plu7XwLUdVU8wM7LftQfza51WviuznGClnw0i2SCwXQqFCRKkb3Vmwci-2qgmFL3VH2KYks33BH8dCOVh9thysVhPVm9S6pPzB0tppaCuB2narmQlLTezsJsMhCD_Tt-27kwXGyEIDlSJ7_XqAEbSX-Q99LM" style=""/>
 <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg" style="">₹89</div>
 </div>
 <h3 class="text-2xl font-bold text-primary mb-2" style="">Dipu's Mini-Brew Keychain</h3>
-<p class="text-on-surface-variant text-sm mb-6" style="">Individually handcrafted resin keychains. A tiny piece of BrewDipu to carry everywhere.</p>
-<button class="w-full py-4 bg-primary text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-colors group" style="">
-                        Add to Cart <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" style="">arrow_forward</span>
-</button>
+<p class="text-on-surface-variant text-sm mb-6" style="">Individually handcrafted resin keychains. A tiny piece of CoMoAdda to carry everywhere.</p>
+<div class="flex gap-2 mt-auto">
+    <button class="flex-1 py-4 bg-surface-container-highest text-primary rounded-xl font-black uppercase tracking-wide flex items-center justify-center gap-2 hover:bg-outline-variant transition-colors group" style="">
+                            + Cart <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" style="">add_shopping_cart</span>
+    </button>
+    <button class="flex-[1.5] py-4 bg-primary text-white rounded-xl font-black uppercase tracking-wide flex items-center justify-center gap-2 hover:bg-primary-container transition-colors group" style="">
+                            Buy Now <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" style="">bolt</span>
+    </button>
+</div>
 </div>
 </div>
 </div>
@@ -270,7 +289,7 @@
 <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
 <div class="lg:w-1/2 relative">
 <div class="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl">
-<img class="w-full h-[600px] object-cover" data-alt="Cozy interior of an artisanal boutique cafe with warm lighting, wooden furniture, and plants" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl58nifH_4ct6gHTREqJlfJNV7ZH4ezx34eJtvQPbe6qIHo4AtjF4KMc5H8kfF03CHqWysPbaJijD4osQdwLX2nL0AdaVhtfo4_LiOUN60NlbYfbsj963SfESU9gX8Om5bg-o0QNIw61aHvZRWwt0oC3js7g5H2xSzGqZVmOMJ-ZXQLk5mBGS_mrjimrXY_4fpaQWySpWkXiJW0a2SCugCn7luKMuwff2Ztc9tFnulRdCr6z9nQHoPyyyUmzscYIY-zNQcrIVV8_o" style=""/>
+<img loading="lazy"  class="w-full h-[600px] object-cover" data-alt="Cozy interior of an artisanal boutique cafe with warm lighting, wooden furniture, and plants" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl58nifH_4ct6gHTREqJlfJNV7ZH4ezx34eJtvQPbe6qIHo4AtjF4KMc5H8kfF03CHqWysPbaJijD4osQdwLX2nL0AdaVhtfo4_LiOUN60NlbYfbsj963SfESU9gX8Om5bg-o0QNIw61aHvZRWwt0oC3js7g5H2xSzGqZVmOMJ-ZXQLk5mBGS_mrjimrXY_4fpaQWySpWkXiJW0a2SCugCn7luKMuwff2Ztc9tFnulRdCr6z9nQHoPyyyUmzscYIY-zNQcrIVV8_o" style=""/>
 </div>
 <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-tertiary-fixed rounded-3xl -z-0"></div>
 <div class="absolute top-1/2 -left-10 transform -translate-y-1/2 w-20 h-80 bg-primary opacity-10 rounded-full blur-3xl"></div>
@@ -279,7 +298,7 @@
 <span class="text-secondary font-bold tracking-widest uppercase text-sm" style="">The Story</span>
 <h2 class="text-5xl md:text-6xl font-black text-primary mt-4 mb-8 leading-tight" style="">Artisanal Sips,<br/>Born at Home.</h2>
 <div class="space-y-6 text-on-surface-variant text-lg leading-relaxed">
-<p class="" style="">BrewDipu started with a simple obsession: the perfect cold brew. What began in a small kitchen as an experiment with beans and ice turned into a movement for those who value the "Artisanal Chill."</p>
+<p class="" style="">CoMoAdda started with a simple obsession: the perfect cold brew. What began in a small kitchen as an experiment with beans and ice turned into a movement for those who value the "Artisanal Chill."</p>
 <p class="" style="">Every bottle is hand-poured, every flavor is meticulously balanced, and every keychain is crafted with the same precision we apply to our coffee. We believe high-end luxury shouldn't be distant—it should be available at your doorstep.</p>
 </div>
 <div class="mt-12 grid grid-cols-2 gap-8">
@@ -299,7 +318,7 @@
 <section class="py-24 px-8 bg-surface-container-high">
 <div class="max-w-7xl mx-auto">
 <div class="text-center mb-16">
-<h2 class="text-4xl md:text-5xl font-black text-primary" style="">Why BrewDipu?</h2>
+<h2 class="text-4xl md:text-5xl font-black text-primary" style="">Why CoMoAdda?</h2>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 <div class="md:col-span-2 glass-card p-10 rounded-3xl bg-gradient-to-br from-tertiary-fixed to-white border-0 shadow-xl">
@@ -333,26 +352,26 @@
 <div class="max-w-7xl mx-auto">
 <div class="flex flex-col md:flex-row justify-between items-center mb-12 px-4 gap-4">
 <h2 class="text-3xl font-black text-primary" style="">The Insta-Vibe</h2>
-<a class="text-primary font-bold hover:underline flex items-center gap-2" href="#" style="">Follow @BrewDipu <span class="material-symbols-outlined text-sm" style="">open_in_new</span></a>
+<a class="text-primary font-bold hover:underline flex items-center gap-2" href="#" style="">Follow @CoMoAdda <span class="material-symbols-outlined text-sm" style="">open_in_new</span></a>
 </div>
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
 <div class="aspect-square overflow-hidden rounded-xl group cursor-pointer shadow-md">
-<img class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700" data-alt="Aesthetic shot of a bottle of cold brew coffee with a handwritten label on a rustic background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG5dgLYqM4_p9H4qSZGU_1UGOu29_5DLGSxSR-S9I1Ky7kVn8Q9zDiX5am5l0RqDuEmMeNIxb-j7LHhx2r4-KuvsO1WWdIndFOaREFzRQT26Mr0dI_M33zefuCoWL9O7y-yQ9fLQij3nR4fHkAOmWyH8c8Yr56XPAvHe1fSGt7EQN7SILqPZKbZgAk5X1yTOo_Ikapc8HiX8cpBNbA74xWANTxOvE3q1XAbuqAeZbe6N7edSj5Z0HnO1N2hhlYjXuvMmSTz1zDoKs" style=""/>
+<img loading="lazy"  class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700" data-alt="Aesthetic shot of a bottle of cold brew coffee with a handwritten label on a rustic background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG5dgLYqM4_p9H4qSZGU_1UGOu29_5DLGSxSR-S9I1Ky7kVn8Q9zDiX5am5l0RqDuEmMeNIxb-j7LHhx2r4-KuvsO1WWdIndFOaREFzRQT26Mr0dI_M33zefuCoWL9O7y-yQ9fLQij3nR4fHkAOmWyH8c8Yr56XPAvHe1fSGt7EQN7SILqPZKbZgAk5X1yTOo_Ikapc8HiX8cpBNbA74xWANTxOvE3q1XAbuqAeZbe6N7edSj5Z0HnO1N2hhlYjXuvMmSTz1zDoKs" style=""/>
 </div>
 <div class="aspect-square overflow-hidden rounded-xl group cursor-pointer shadow-md">
-<img class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700" data-alt="Overhead view of several glasses filled with different coffee and juice drinks on a minimalist table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkeyEwEndkSVQ2WAYrXMJZ2jCwMo0k6vCdmJpKOj6FA-PJoh_i8U2sKTh3fqXCu7v4mt_biITpbHGySIP2T8UYMCPrbVje4f4od04NurJZmtb39Ip360F1FBdEX5J9yNKSWjd5EG2MqnVeE5nLE1dIDkKTirTWJQ92rGwKL0E2RkLrEKTAC2SiuN_f4MCLJRp27jGKBB3T2NDffWWvj5urZkbE_h_18xREGyMgCFMBfz76yJsr3k0W-217H8SWhUGhMDZqaSM3MUo" style=""/>
+<img loading="lazy"  class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700" data-alt="Overhead view of several glasses filled with different coffee and juice drinks on a minimalist table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkeyEwEndkSVQ2WAYrXMJZ2jCwMo0k6vCdmJpKOj6FA-PJoh_i8U2sKTh3fqXCu7v4mt_biITpbHGySIP2T8UYMCPrbVje4f4od04NurJZmtb39Ip360F1FBdEX5J9yNKSWjd5EG2MqnVeE5nLE1dIDkKTirTWJQ92rGwKL0E2RkLrEKTAC2SiuN_f4MCLJRp27jGKBB3T2NDffWWvj5urZkbE_h_18xREGyMgCFMBfz76yJsr3k0W-217H8SWhUGhMDZqaSM3MUo" style=""/>
 </div>
 <div class="aspect-square overflow-hidden rounded-xl group cursor-pointer shadow-md">
-<img class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700" data-alt="Sunlight hitting a glass of water and ice creating beautiful caustic patterns on a wooden surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUVdXStgnsAV_xqT9bbq2d2RUKgW1ZvNzc0ErR-blZtC8nAuCwbPik_TEVX5g0o1kZcj7gnhjnGsSQhG7kPE5d36DUYFBZKWy85X9Hzv1U-_qXRJ5czncq7vLnZqQ1SNv0BQESW47dqLB3q5bT5yLoR4B0CpiO5R5w8JNwFMHR7XmW3aJZ1NP1IZMkAKfAakvAqzCQhXriloxeBF4pnQNirADBj6K8uWySkxKDkOfZNSqL6DIipAAG7FlZJh8auas791dZQpbS1Ok" style=""/>
+<img loading="lazy"  class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700" data-alt="Sunlight hitting a glass of water and ice creating beautiful caustic patterns on a wooden surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUVdXStgnsAV_xqT9bbq2d2RUKgW1ZvNzc0ErR-blZtC8nAuCwbPik_TEVX5g0o1kZcj7gnhjnGsSQhG7kPE5d36DUYFBZKWy85X9Hzv1U-_qXRJ5czncq7vLnZqQ1SNv0BQESW47dqLB3q5bT5yLoR4B0CpiO5R5w8JNwFMHR7XmW3aJZ1NP1IZMkAKfAakvAqzCQhXriloxeBF4pnQNirADBj6K8uWySkxKDkOfZNSqL6DIipAAG7FlZJh8auas791dZQpbS1Ok" style=""/>
 </div>
 <div class="aspect-square overflow-hidden rounded-xl group cursor-pointer shadow-md">
-<img class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700" data-alt="A vibrant purple dragonfruit smoothie in a chilled glass decorated with mint" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVAf42WfmdWp8fzjb5n-pNDyd6tEu5RjHGBRy-M1iNKhizaoWeeR3Hq9cOSQu6iCLA9qZoDjqzlNceuRNEu0rEhCxuFT1ekyiSjAx0l2XSinNkClsUSyB3uiYUkeHGqJ1rdpqjx9phGXLTJr7yRcQe-b4TabG2eNEWE7B7NZ0JricAYwPzrQ_Exzdeg6M71WwKqkN5PvJLP5dFDQlsS6cUiFchv4VPn0SQyv3VyuL3Q7GCpMvYUmvDd8uXK6Fi_m4bpaPHL3xraqs" style=""/>
+<img loading="lazy"  class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700" data-alt="A vibrant purple dragonfruit smoothie in a chilled glass decorated with mint" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVAf42WfmdWp8fzjb5n-pNDyd6tEu5RjHGBRy-M1iNKhizaoWeeR3Hq9cOSQu6iCLA9qZoDjqzlNceuRNEu0rEhCxuFT1ekyiSjAx0l2XSinNkClsUSyB3uiYUkeHGqJ1rdpqjx9phGXLTJr7yRcQe-b4TabG2eNEWE7B7NZ0JricAYwPzrQ_Exzdeg6M71WwKqkN5PvJLP5dFDQlsS6cUiFchv4VPn0SQyv3VyuL3Q7GCpMvYUmvDd8uXK6Fi_m4bpaPHL3xraqs" style=""/>
 </div>
 <div class="aspect-square overflow-hidden rounded-xl group cursor-pointer shadow-md">
-<img class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700" data-alt="Artisanal hands working on a small piece of jewelry or keychain on a workbench" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2eWeFJ2WHHnmJ9TZ_jC43jzbxluw3yZGAgVyd1Af6-DIO3bbLbhLAp0Jiws-4Sx86_87DbE-KAVUIHz8j4n1omQYVgC0XW40cdfgnVeIWWgrYFdhg-ATHBIZ5ljTUiI3qsDLSAh7pcmIWxGBYAbBYlQVtHPY72Yv2tjwGoYDmIfAG0sROGadhwJe0MPTg3rUaeeEsumc_nEqT-35tq_fPY9mstTSbBoIy5D-l_LNFy0xuvFWH91Rzs_aZiA6VMxjTSWw0FP72_gU" style=""/>
+<img loading="lazy"  class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700" data-alt="Artisanal hands working on a small piece of jewelry or keychain on a workbench" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2eWeFJ2WHHnmJ9TZ_jC43jzbxluw3yZGAgVyd1Af6-DIO3bbLbhLAp0Jiws-4Sx86_87DbE-KAVUIHz8j4n1omQYVgC0XW40cdfgnVeIWWgrYFdhg-ATHBIZ5ljTUiI3qsDLSAh7pcmIWxGBYAbBYlQVtHPY72Yv2tjwGoYDmIfAG0sROGadhwJe0MPTg3rUaeeEsumc_nEqT-35tq_fPY9mstTSbBoIy5D-l_LNFy0xuvFWH91Rzs_aZiA6VMxjTSWw0FP72_gU" style=""/>
 </div>
 <div class="aspect-square overflow-hidden rounded-xl group cursor-pointer shadow-md">
-<img class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700" data-alt="Close up of a glass of cold brew coffee with milk mixing together in swirls" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrPHB9YCAT75EtF4hVagAl11ELzw5MsHEZR0kPmkn0IxnCWITy0gy6GziNw1zi8gaZLUS56R6kqXjBBh67nKIQi_fXsyBgmaLzPtGmMHLAxgssHVJdy1E_3Ud-tzosQj-F34bKSkjxW5TERUIaTH-eM-t6Z7w_aaT2cyzoV_w4uQEYiEc4hka7a8smMj8EnxMx4D9cVoRYdFv1GlqMWfxcu5OpwWvA6aDZyNDuspvsncnHnMgp2cWt0rSLyELFYL-HRq3KSMWxP0U" style=""/>
+<img loading="lazy"  class="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700" data-alt="Close up of a glass of cold brew coffee with milk mixing together in swirls" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrPHB9YCAT75EtF4hVagAl11ELzw5MsHEZR0kPmkn0IxnCWITy0gy6GziNw1zi8gaZLUS56R6kqXjBBh67nKIQi_fXsyBgmaLzPtGmMHLAxgssHVJdy1E_3Ud-tzosQj-F34bKSkjxW5TERUIaTH-eM-t6Z7w_aaT2cyzoV_w4uQEYiEc4hka7a8smMj8EnxMx4D9cVoRYdFv1GlqMWfxcu5OpwWvA6aDZyNDuspvsncnHnMgp2cWt0rSLyELFYL-HRq3KSMWxP0U" style=""/>
 </div>
 </div>
 </div>
@@ -411,8 +430,8 @@
 <footer class="bg-stone-50 dark:bg-zinc-950 w-full py-12 px-8">
 <div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-8">
 <div class="text-center md:text-left">
-<div class="text-xl font-bold text-stone-800 dark:text-stone-200 mb-2" style="">BrewDipu</div>
-<p class="font-manrope text-sm uppercase tracking-widest text-stone-500 dark:text-stone-400" style="">© 2024 BrewDipu. Handcrafted Artisanal Chill.</p>
+<div class="text-xl font-bold text-stone-800 dark:text-stone-200 mb-2" style="">CoMoAdda</div>
+<p class="font-manrope text-sm uppercase tracking-widest text-stone-500 dark:text-stone-400" style="">© 2024 CoMoAdda. Handcrafted Artisanal Chill.</p>
 </div>
 <div class="flex gap-8">
 <a class="font-manrope text-sm uppercase tracking-widest text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:translate-x-1 transition-transform duration-200" href="#" style="">Instagram</a>

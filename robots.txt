@@ -5,4 +5,4 @@ Allow: /
 Disallow: /admin.html
 Disallow: /admin.js
 
-Sitemap: https://www.brewdipu.shop/sitemap.xml
+Sitemap: https://www.comoadda.shop/sitemap.xml

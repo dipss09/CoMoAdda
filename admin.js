@@ -79,7 +79,7 @@ function switchTab(tabId) {
     const btn = document.getElementById(`tab-btn-${t}`);
     if(btn) {
       btn.classList.remove("bg-primary", "text-white");
-      btn.classList.add("text-on-surface-variant");
+      btn.classList.add("text-on-surface-variant", "hover:bg-surface-container-highest");
     }
   });
   
@@ -87,7 +87,7 @@ function switchTab(tabId) {
   const activeBtn = document.getElementById(`tab-btn-${tabId}`);
   if(activeBtn) {
     activeBtn.classList.add("bg-primary", "text-white");
-    activeBtn.classList.remove("text-on-surface-variant");
+    activeBtn.classList.remove("text-on-surface-variant", "hover:bg-surface-container-highest");
   }
 }
 
@@ -160,6 +160,12 @@ function loadOrders() {
         });
       }
       salesGrid.innerHTML = salesHtml;
+    }
+  }, error => {
+    console.error("Firestore orders query failed:", error);
+    const tbody = document.getElementById("orders-tbody");
+    if (tbody) {
+      tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-red-600 font-bold">Error loading orders: ${error.message}. Check browser console or Firebase rules.</td></tr>`;
     }
   });
 }
@@ -239,6 +245,12 @@ function loadUsers() {
       </tr>`;
     });
     tbody.innerHTML = html;
+  }, error => {
+    console.error("Firestore users query failed:", error);
+    const tbody = document.getElementById("users-tbody");
+    if (tbody) {
+      tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-red-600 font-bold">Error loading users: ${error.message}</td></tr>`;
+    }
   });
 }
 
@@ -267,6 +279,12 @@ function loadReferrals() {
       </tr>`;
     });
     tbody.innerHTML = html;
+  }, error => {
+    console.error("Firestore referrals query failed:", error);
+    const tbody = document.getElementById("referrals-tbody");
+    if (tbody) {
+      tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-red-600 font-bold">Error loading referrals: ${error.message}</td></tr>`;
+    }
   });
 }
 
@@ -310,7 +328,7 @@ function loadSettings() {
       const data = currentSettings;
       document.getElementById("set-reward-points").value = data.rewardPointsRequired || 600;
       document.getElementById("set-about").value = data.aboutText || "";
-      document.getElementById("set-hero-title").value = data.heroTitle || "BrewDipu";
+      document.getElementById("set-hero-title").value = data.heroTitle || "CoMoAdda";
       document.getElementById("set-hero-sub").value = data.heroSub || "Chilled Sips, Crafted by Dipu.";
       document.getElementById("set-story-heading").value = data.storyHeading || "Artisanal Sips,\nBorn at Home.";
       // Note: set-story-file is an input type="file", we can't set its value.
@@ -318,8 +336,8 @@ function loadSettings() {
       
       // Contact & Social
       document.getElementById("set-whatsapp").value = data.whatsapp || "918101244865";
-      document.getElementById("set-email").value = data.email || "brewdipu@gmail.com";
-      document.getElementById("set-instagram").value = data.instagram || "https://instagram.com/brewdipu";
+      document.getElementById("set-email").value = data.email || "comoadda@gmail.com";
+      document.getElementById("set-instagram").value = data.instagram || "https://instagram.com/comoadda";
       
       // EmailJS
       if (data.emailjs) {
@@ -328,7 +346,7 @@ function loadSettings() {
         document.getElementById("set-emailjs-template").value = data.emailjs.templateId || "";
       }
       
-      // Features (Why BrewDipu)
+      // Features (Why CoMoAdda)
       if (data.features) {
         document.getElementById("set-f1-title").value = data.features.f1Title || "Homemade Pureness";
         document.getElementById("set-f1-desc").value = data.features.f1Desc || "Zero preservatives. Just raw, natural ingredients prepared in small batches to ensure absolute quality in every sip.";
@@ -414,6 +432,9 @@ function loadSettings() {
       if(data.autoLive) manualOverride.classList.add("hidden", "opacity-50");
       else manualOverride.classList.remove("hidden", "opacity-50");
     }
+  }, error => {
+    console.error("Firestore settings query failed:", error);
+    alert("❌ Error loading settings from Firestore: " + error.message);
   });
 }
 
@@ -528,9 +549,10 @@ document.getElementById("settings-form").addEventListener("submit", async (e) =>
       isOpen: document.getElementById("set-isopen").checked,
     };
     
-    // Save to Firestore
+    // Save to Firestore (strip undefined values)
+    const sanitizedPayload = JSON.parse(JSON.stringify(payload));
     submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base">progress_activity</span> Applying to website...';
-    await db.collection("settings").doc("storeConfig").set(payload, { merge: true });
+    await db.collection("settings").doc("storeConfig").set(sanitizedPayload, { merge: true });
 
     // SUCCESS
     submitBtn.disabled = false;
@@ -892,6 +914,12 @@ function loadProducts() {
     const cats = [...new Set(currentProducts.map(p => (p.category || '').trim()).filter(Boolean))];
     const dl = document.getElementById('categories-datalist');
     if (dl) dl.innerHTML = cats.map(c => `<option value="${c}">`).join('');
+  }, error => {
+    console.error("Firestore products query failed:", error);
+    const grid = document.getElementById("products-grid");
+    if (grid) {
+      grid.innerHTML = `<div class="p-8 text-center text-red-600 font-bold col-span-full">Error loading products: ${error.message}</div>`;
+    }
   });
 }
 
@@ -1103,6 +1131,12 @@ function loadReviews() {
       </div>`;
     });
     grid.innerHTML = html;
+  }, error => {
+    console.error("Firestore reviews query failed:", error);
+    const grid = document.getElementById("reviews-grid");
+    if (grid) {
+      grid.innerHTML = `<div class="p-8 text-center text-red-600 font-bold col-span-full">Error loading reviews: ${error.message}</div>`;
+    }
   });
 }
 
@@ -1115,9 +1149,9 @@ function seedInitialProducts() {
   const seed = [
     { name: "Caramel Cloud Cold Brew", desc: "Velvety foam layered over our signature 18-hour steep, finished with house-made caramel.", price: 149, badge: "⭐ Best Seller", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAI6bqWnV0eVhM2O80smaAPhKZFI-FT2yStUZg6x25CTYRxKrbJ1_EwiHqdP-z2JAEh2Mt7M2UpaTqeRv9LxGfMNVWc7FpvlFou7uMSgpPSwIOi78vmSOQUm2sGZ6v63p3hXSWx14igFVv4hqozF6Gyr39eGd1AF-A6uwlFvWbF474rnHGS3GIaTQS0JKPKXkt7JlPCLnfkTEBkMF9JXzO4BUPdhR1rCIt8qhN-bC4F188wKXgwMPNk35lW-EsHKE7fdTJVNzetQNY", outOfStock: false },
     { name: "Midnight Mojito", desc: "Deep berry infusion with muddled garden mint and a sharp citrus kick. Refreshment redefined.", price: 129, badge: "🌿 Fresh", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuB5LGsFaMQsbTUvg6V0D9fspBYiroXPnhIbkT37XKWHjwMf9BIfuCCe78eBxUOYHN3xEgnW7qQnjxTwyCE_9Zsq69yNdR-kUUY4x-8mRStukBAaPwTf2ZgUruX_LsOvfsVECUn-sPF5bbXsWHb5oY-Q4pgjqhKMK3P5M3mKZDBuQTKjfnASrQXPqLjT4Q7k2MpDCBs6ahJBjJVLaIawepdF2dEgNw9Nk17nOrxk7d8KDka1E0CyK68YVfDNUM2r1BoR_PknTYJmw3U", outOfStock: false },
-    { name: "Dipu's Mini-Brew Keychain", desc: "Individually handcrafted resin keychains. A tiny piece of BrewDipu to carry everywhere.", price: 89, badge: "🎨 Handmade", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBg3px03BErm9fszHgQXGvDPcbasCwngej2BR1hOvOJz-oIK-Qcv24uy-LPv5ElFxx5yMIBXk2zBpxoCthQ6USl864ekLf00Kx4HtayCXVIftcWap9plu7XwLUdVU8wM7LftQfza51WviuznGClnw0i2SCwXQqFCRKkb3Vmwci-2qgmFL3VH2KYks33BH8dCOVh9thysVhPVm9S6pPzB0tppaCuB2narmQlLTezsJsMhCD_Tt-27kwXGyEIDlSJ7_XqAEbSX-Q99LM", outOfStock: false },
+    { name: "Dipu's Mini-Brew Keychain", desc: "Individually handcrafted resin keychains. A tiny piece of CoMoAdda to carry everywhere.", price: 89, badge: "🎨 Handmade", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBg3px03BErm9fszHgQXGvDPcbasCwngej2BR1hOvOJz-oIK-Qcv24uy-LPv5ElFxx5yMIBXk2zBpxoCthQ6USl864ekLf00Kx4HtayCXVIftcWap9plu7XwLUdVU8wM7LftQfza51WviuznGClnw0i2SCwXQqFCRKkb3Vmwci-2qgmFL3VH2KYks33BH8dCOVh9thysVhPVm9S6pPzB0tppaCuB2narmQlLTezsJsMhCD_Tt-27kwXGyEIDlSJ7_XqAEbSX-Q99LM", outOfStock: false },
     { name: "Sunrise Orange Burst", desc: "Freshly squeezed oranges blended with a hint of ginger. Pure, organic, no added sugar.", price: 99, badge: "🍊 Organic", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDIntQ-ubtNMEvijaYU5lNeNGFs8vLYNcKKN9H3CmkVMycEJRm1vfNBYI2le0aZqU682HqK-s_l-1zhg7FMcY7_HigBSIYacu36QvRKe4jMvXqPbC4HhiS-KUruCZgVS7Sdmx_ca3r6Shf2H0W_CxMaP3dHqgU4yBuEu5Q5PLFGbvpjf4acHMBJfMl8IgRZ1tWJ25ovHLS2omkedNxpNxgZ_XJsPQUS6rVwGS-ZHDmEBokWR5Xx-xKWA9ueCdtcRHsInH91b63VGJY", outOfStock: false },
-    { name: "Classic Cold Brew", desc: "No-frills, full-flavour. The original BrewDipu slow-steeped cold brew. Bold, smooth, iconic.", price: 119, badge: "🏆 Classic", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCrPHB9YCAT75EtF4hVagAl11ELzw5MsHEZR0kPmkn0IxnCWITy0gy6GziNw1zi8gaZLUS56R6kqXjBBh67nKIQi_fXsyBgmaLzPtGmMHLAxgssHVJdy1E_3Ud-tzosQj-F34bKSkjxW5TERUIaTH-eM-s-J7w_aaT2cyzoV_w4uQEYiEc4hka7a8smMj8EnxMx4D9cVoRYdFv1GlqMWfxcu5OpwWvA6aDZyNDuspvsncnHnMgp2cWt0rSLyELFYL-HRq3KSMWxP0U", outOfStock: false },
+    { name: "Classic Cold Brew", desc: "No-frills, full-flavour. The original CoMoAdda slow-steeped cold brew. Bold, smooth, iconic.", price: 119, badge: "🏆 Classic", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCrPHB9YCAT75EtF4hVagAl11ELzw5MsHEZR0kPmkn0IxnCWITy0gy6GziNw1zi8gaZLUS56R6kqXjBBh67nKIQi_fXsyBgmaLzPtGmMHLAxgssHVJdy1E_3Ud-tzosQj-F34bKSkjxW5TERUIaTH-eM-s-J7w_aaT2cyzoV_w4uQEYiEc4hka7a8smMj8EnxMx4D9cVoRYdFv1GlqMWfxcu5OpwWvA6aDZyNDuspvsncnHnMgp2cWt0rSLyELFYL-HRq3KSMWxP0U", outOfStock: false },
     { name: "Dragon Berry Cooler", desc: "Dragonfruit, mint, and sparkling water fused into one electrifying, Insta-worthy cooler.", price: 139, badge: "🔥 Trending", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDG5dgLYqM4_p9H4qSZGU_1UGOu29_5DLGSxSR-S9I1Ky7kVn8Q9zDiX5am5l0RqDuEmMeNIxb-j7LHhx2r4-KuvsO1WWdIndFOaREFzRQT26Mr0dI_M33zefuCoWL9O7y-yQ9fLQij3nR4fHkAOmWyH8c8Yr56XPAvHe1fSGt7EQN7SILqPZKbZgAk5X1yTOo_Ikapc8HiX8cpBNbA74xWANTxOvE3q1XAbuqAeZbe6N7edSj5Z0HnO1N2hhlYjXuvMmSTz1zDoKs", outOfStock: false }
   ];
   seed.forEach(s => db.collection("products").add(s));
@@ -1221,6 +1255,12 @@ function loadOffers() {
       </div>`;
     });
     grid.innerHTML = html;
+  }, error => {
+    console.error("Firestore promoCodes query failed:", error);
+    const grid = document.getElementById("offers-grid");
+    if (grid) {
+      grid.innerHTML = `<div class="p-8 text-center text-red-600 font-bold col-span-full">Error loading offers/promos: ${error.message}</div>`;
+    }
   });
 }
 
@@ -1318,3 +1358,59 @@ window.deleteOffer = function(codeId) {
     db.collection("promoCodes").doc(codeId).delete();
   }
 };
+
+// ──────────────────────────────────────────────
+//  👤  ADMIN CREATION LOGIC
+// ──────────────────────────────────────────────
+const createAdminForm = document.getElementById("create-admin-form");
+if (createAdminForm) {
+  createAdminForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById("btn-create-admin");
+    const msg = document.getElementById("create-admin-msg");
+    const errEl = document.getElementById("create-admin-err");
+    const email = document.getElementById("new-admin-email").value.trim();
+    const password = document.getElementById("new-admin-password").value;
+
+    if (password.length < 6) {
+      errEl.textContent = "Password must be at least 6 characters.";
+      errEl.classList.remove("hidden");
+      return;
+    }
+
+    const origHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base">progress_activity</span> Creating...';
+    errEl.classList.add("hidden");
+    msg.classList.add("hidden");
+
+    try {
+      const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${firebaseConfig.apiKey}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          returnSecureToken: false
+        })
+      });
+
+      const data = await response.json();
+      if (data.error) {
+        throw new Error(data.error.message);
+      }
+
+      msg.classList.remove("hidden");
+      document.getElementById("new-admin-email").value = "";
+      document.getElementById("new-admin-password").value = "";
+    } catch (error) {
+      console.error("Admin creation failed:", error);
+      errEl.textContent = "Error: " + error.message;
+      errEl.classList.remove("hidden");
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = origHtml;
+      setTimeout(() => { msg.classList.add("hidden"); errEl.classList.add("hidden"); }, 5000);
+    }
+  });
+}

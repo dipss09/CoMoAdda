@@ -21,10 +21,10 @@
       "has": [
         {
           "type": "host",
-          "value": "brewdipu.shop"
+          "value": "comoadda.shop"
         }
       ],
-      "destination": "https://www.brewdipu.shop/$1",
+      "destination": "https://www.comoadda.shop/$1",
       "permanent": true
     }
   ]
