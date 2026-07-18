@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>CoMoAdda | Admin Dashboard</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link rel="stylesheet" href="/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  
+
   <script defer src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
   <script defer src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
   <script defer src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
@@ -16,30 +17,6 @@
 
   <script src="admin.js" defer></script>
 
-  <script id="tailwind-config">
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            "primary": "#331917",
-            "primary-container": "#4b2e2b",
-            "surface": "#fff8f3",
-            "surface-container": "#fbecd9",
-            "surface-container-high": "#f5e6d3",
-            "surface-container-highest": "#efe0cd",
-            "outline": "#827472",
-            "on-surface": "#221a0f",
-            "on-surface-variant": "#504443",
-            "secondary": "#006e20",
-          },
-          fontFamily: {
-            headline: ["Epilogue"],
-            body: ["Manrope"]
-          }
-        }
-      }
-    }
-  </script>
   <style>
     body { font-family: 'Manrope', sans-serif; }
     h1, h2, h3, h4 { font-family: 'Epilogue', sans-serif; }
@@ -59,7 +36,7 @@
     <div class="glass-card w-full max-w-md p-8 rounded-3xl shadow-xl">
       <div class="text-center mb-8">
         <h2 class="text-3xl font-black text-primary">Admin Access</h2>
-        <p class="text-on-surface-variant mt-2 text-sm">Secure login for CoMo Adda management</p>
+        <p class="text-on-surface-variant mt-2 text-sm">Secure login for CoMoAdda management</p>
       </div>
       <form id="login-form" class="space-y-4">
         <div>
@@ -87,7 +64,7 @@
     <!-- Sidebar -->
     <aside class="w-full md:w-64 bg-surface-container-high border-r border-outline/20 flex flex-col shrink-0">
       <div class="p-4 md:p-6 border-b border-outline/20">
-        <img src="logo.png" alt="CoMo Adda" class="h-10 w-auto object-contain" />
+        <img src="logo.png" alt="CoMoAdda" class="h-10 w-auto object-contain" />
         <span class="text-[10px] md:text-xs font-bold text-secondary uppercase tracking-widest">Admin Panel</span>
       </div>
       <nav class="flex-1 p-2 md:p-4 space-y-1 md:space-y-2 overflow-x-auto md:overflow-x-visible flex md:flex-col gap-2 md:gap-0">
@@ -659,7 +636,7 @@
           <!-- Why CoMoAdda Feature Content -->
           <div class="space-y-4">
             <div>
-               <h4 class="font-bold text-primary">"Why CoMo Adda?" Features</h4>
+               <h4 class="font-bold text-primary">"Why CoMoAdda?" Features</h4>
                <p class="text-xs text-on-surface-variant mb-4">Edit the 4 main value propositions on the homepage.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

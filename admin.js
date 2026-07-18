@@ -339,7 +339,7 @@ function loadSettings() {
       // Contact & Social
       document.getElementById("set-whatsapp").value = data.whatsapp || "918101244865";
       document.getElementById("set-email").value = data.email || "comoadda@gmail.com";
-      document.getElementById("set-instagram").value = data.instagram || "https://instagram.com/comoadda";
+      document.getElementById("set-instagram").value = data.instagram || "https://www.instagram.com/comoadda";
       
       // EmailJS
       if (data.emailjs) {
