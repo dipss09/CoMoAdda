@@ -3,9 +3,9 @@
 // ──────────────────────────────────────────────
 const firebaseConfig = {
   apiKey: ["AIzaSyD5", "jNH16Xkz", "rq6prfqtx", "Oa10HbqEy", "BPm44"].join(""),
-  authDomain: "brewdipu-f2092.firebaseapp.com",
-  projectId: "brewdipu-f2092",
-  storageBucket: "brewdipu-f2092.appspot.com",
+  authDomain: "comoadda.firebaseapp.com",
+  projectId: "comoadda",
+  storageBucket: "comoadda.appspot.com",
   messagingSenderId: "959585483776",
   appId: "1:959585483776:web:65fec5ade570d763546ce5"
 };
@@ -108,6 +108,7 @@ function loadOrders() {
       return;
     }
 
+    window.deliveredOrders = [];
     let html = "";
     snapshot.forEach(doc => {
       const data = doc.data();
@@ -136,33 +137,13 @@ function loadOrders() {
         </td>
       </tr>`;
 
-      if (st === "Delivered" && data.items) {
-        data.items.forEach(item => {
-          if (!productSales[item.name]) productSales[item.name] = 0;
-          productSales[item.name] += parseInt(item.qty, 10);
-        });
+      if (st === "Delivered") {
+        window.deliveredOrders.push(data);
       }
     });
     tbody.innerHTML = html;
 
-    const salesGrid = document.getElementById("product-sales-grid");
-    if (salesGrid) {
-      let salesHtml = "";
-      const sortedSales = Object.keys(productSales).sort((a, b) => productSales[b] - productSales[a]);
-      if (sortedSales.length === 0) {
-        salesHtml = `<div class="col-span-full text-on-surface-variant">No delivered items yet.</div>`;
-      } else {
-        sortedSales.forEach(name => {
-          salesHtml += `
-            <div class="p-4 bg-white rounded-xl border border-outline/20 shadow-sm flex flex-col">
-              <span class="text-xs text-on-surface-variant mb-1 line-clamp-1" title="${name}">${name}</span>
-              <span class="text-lg font-black text-primary">${productSales[name]} sold</span>
-            </div>
-          `;
-        });
-      }
-      salesGrid.innerHTML = salesHtml;
-    }
+    if (window.updateSalesDashboard) window.updateSalesDashboard();
   }, error => {
     console.error("Firestore orders query failed:", error);
     const tbody = document.getElementById("orders-tbody");
@@ -339,7 +320,7 @@ function loadSettings() {
       // Contact & Social
       document.getElementById("set-whatsapp").value = data.whatsapp || "918101244865";
       document.getElementById("set-email").value = data.email || "comoadda@gmail.com";
-      document.getElementById("set-instagram").value = data.instagram || "https://www.instagram.com/comoadda";
+      document.getElementById("set-instagram").value = data.instagram || "https://instagram.com/comoadda";
       
       // EmailJS
       if (data.emailjs) {
@@ -892,7 +873,7 @@ function loadProducts() {
         <div>
           <h4 class="font-bold text-primary mb-1">${p.name}</h4>
           <p class="text-xs text-on-surface-variant line-clamp-2 mb-2">${p.desc}</p>
-          <div class="font-black text-primary mb-4">₹${p.price}</div>
+          <div class="font-black text-primary mb-4">₹${p.price} <span class="text-xs text-on-surface-variant font-normal ml-2">Cost: ₹${p.costPrice || 0}</span></div>
         </div>
         <div class="mt-auto pt-4 border-t border-outline/10 space-y-3">
           <div class="flex items-center justify-between">
@@ -916,6 +897,8 @@ function loadProducts() {
     const cats = [...new Set(currentProducts.map(p => (p.category || '').trim()).filter(Boolean))];
     const dl = document.getElementById('categories-datalist');
     if (dl) dl.innerHTML = cats.map(c => `<option value="${c}">`).join('');
+    
+    if (window.updateSalesDashboard) window.updateSalesDashboard();
   }, error => {
     console.error("Firestore products query failed:", error);
     const grid = document.getElementById("products-grid");
@@ -932,6 +915,8 @@ function closeProductModal() {
   document.getElementById('prod-category').value = '';
   document.getElementById('prod-original-price').value = '';
   document.getElementById('product-modal-title').innerText = 'Add Product';
+  document.getElementById('prod-cost-price').value = '';
+  window.pendingCroppedFiles = [];
   const preview = document.getElementById('prod-img-preview');
   if (preview) preview.innerHTML = '';
   // Reset extras panel
@@ -1011,6 +996,7 @@ document.getElementById("product-form").addEventListener("submit", async (e) => 
       category: document.getElementById("prod-category").value,
       price: document.getElementById("prod-price").value,
       originalPrice: document.getElementById("prod-original-price").value ? Number(document.getElementById("prod-original-price").value) : null,
+      costPrice: document.getElementById("prod-cost-price").value ? Number(document.getElementById("prod-cost-price").value) : null,
       badge: document.getElementById("prod-badge").value,
       img: allImages[0],
       images: allImages,
@@ -1022,17 +1008,19 @@ document.getElementById("product-form").addEventListener("submit", async (e) => 
     task.then(() => { btn.disabled = false; closeProductModal(); });
   };
 
-  if (fileInput.files.length > 0) {
+  const newFiles = window.pendingCroppedFiles || [];
+  if (newFiles.length > 0) {
     document.getElementById("upload-progress").classList.remove("hidden");
-    const compressionPromises = Array.from(fileInput.files).map(f => compressAndGetBase64(f));
+    const compressionPromises = newFiles.map(f => compressAndGetBase64(f));
     try {
       const newUrls = await Promise.all(compressionPromises);
       document.getElementById("upload-progress").classList.add("hidden");
+      window.pendingCroppedFiles = [];
       saveProductToDB(newUrls);
     } catch (err) {
       console.error(err);
       document.getElementById("upload-progress").classList.add("hidden");
-      alert("Image compression failed.");
+      alert("Image upload/compression failed.");
       btn.disabled = false;
     }
   } else {
@@ -1054,12 +1042,14 @@ window.editProduct = function(id) {
   document.getElementById("prod-category").value = p.category || "";
   document.getElementById("prod-price").value = p.price;
   document.getElementById("prod-original-price").value = p.originalPrice || "";
+  document.getElementById("prod-cost-price").value = p.costPrice || "";
   document.getElementById("prod-badge").value = p.badge || "";
   document.getElementById("prod-img").value = "";
   document.getElementById("prod-img-newurl").value = "";
   document.getElementById("prod-img-url").value = p.img;
   document.getElementById("prod-desc").value = p.desc;
   document.getElementById("prod-outofstock").checked = p.outOfStock;
+  window.pendingCroppedFiles = [];
 
   // Render image previews
   const preview = document.getElementById('prod-img-preview');
@@ -1416,3 +1406,95 @@ if (createAdminForm) {
     }
   });
 }
+
+// ──────────────────────────────────────────────
+//  📈 SALES TRACKING DASHBOARD
+// ──────────────────────────────────────────────
+window.updateSalesDashboard = function() {
+  if (!window.deliveredOrders) return;
+  let totalSales = 0, totalRev = 0, totalProfit = 0, totalLoss = 0;
+  window.deliveredOrders.forEach(order => {
+    totalRev += Number(order.total) || 0;
+    if (order.items) {
+      order.items.forEach(item => {
+        let qty = parseInt(item.qty, 10) || 0;
+        totalSales += qty;
+        let p = window.currentProducts ? window.currentProducts.find(x => x.name === item.name) : null;
+        let costPrice = p && p.costPrice ? Number(p.costPrice) : 0;
+        let sellingPrice = Number(item.price) || 0;
+        let margin = (sellingPrice - costPrice) * qty;
+        if (costPrice > 0) {
+          if (margin > 0) totalProfit += margin;
+          else if (margin < 0) totalLoss += Math.abs(margin);
+        }
+      });
+    }
+  });
+  
+  const elTotal = document.getElementById("metric-total-sales");
+  const elRev = document.getElementById("metric-total-revenue");
+  const elProfit = document.getElementById("metric-total-profit");
+  const elLoss = document.getElementById("metric-total-loss");
+  if(elTotal) elTotal.innerText = totalSales;
+  if(elRev) elRev.innerText = "₹" + totalRev.toFixed(0);
+  if(elProfit) elProfit.innerText = "₹" + totalProfit.toFixed(0);
+  if(elLoss) elLoss.innerText = "₹" + totalLoss.toFixed(0);
+};
+
+// ──────────────────────────────────────────────
+//  ✂️ IMAGE CROPPER
+// ──────────────────────────────────────────────
+let cropperInstance = null;
+let cropperFile = null;
+
+const prodImgInput = document.getElementById('prod-img');
+if (prodImgInput) {
+  prodImgInput.addEventListener('change', function(e) {
+    if (e.target.files && e.target.files.length > 0) {
+      cropperFile = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        document.getElementById('cropper-image').src = event.target.result;
+        document.getElementById('cropper-modal').classList.remove('hidden');
+        if (cropperInstance) cropperInstance.destroy();
+        cropperInstance = new Cropper(document.getElementById('cropper-image'), {
+          aspectRatio: NaN,
+          viewMode: 1
+        });
+      };
+      reader.readAsDataURL(cropperFile);
+    }
+  });
+}
+
+window.setCropperAspectRatio = function(ratio) {
+  if (cropperInstance) {
+    cropperInstance.setAspectRatio(ratio);
+  }
+};
+
+window.closeCropperModal = function() {
+  document.getElementById('cropper-modal').classList.add('hidden');
+  if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null; }
+  const prodImg = document.getElementById('prod-img');
+  if (prodImg) prodImg.value = '';
+};
+
+window.applyCroppedImage = function() {
+  if (!cropperInstance) return;
+  cropperInstance.getCroppedCanvas({ maxWidth: 1000, maxHeight: 1000 }).toBlob((blob) => {
+    const file = new File([blob], "cropped_" + Date.now() + ".jpg", { type: "image/jpeg" });
+    if (!window.pendingCroppedFiles) window.pendingCroppedFiles = [];
+    window.pendingCroppedFiles.push(file);
+
+    const dataUrl = URL.createObjectURL(blob);
+    const preview = document.getElementById('prod-img-preview');
+    const idx = preview.children.length;
+    preview.innerHTML += `
+      <div class="relative" id="img-preview-${idx}">
+        <img src="${dataUrl}" data-url="${dataUrl}" data-is-new="true" class="w-16 h-16 object-cover rounded-lg border border-outline/20">
+        <button type="button" onclick="removePreviewImg(${idx})" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full text-[10px] flex items-center justify-center font-black">×</button>
+      </div>`;
+    closeCropperModal();
+  }, 'image/jpeg', 0.8);
+};

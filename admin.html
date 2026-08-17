@@ -3,20 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
   <title>CoMoAdda | Admin Dashboard</title>
-  <link rel="stylesheet" href="/styles.css">
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
   <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-
+  
   <script defer src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
   <script defer src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
   <script defer src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
   <script defer src="https://www.gstatic.com/firebasejs/10.9.0/firebase-storage-compat.js"></script>
 
   <script src="admin.js" defer></script>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
+  <script id="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#331917",
+            "primary-container": "#4b2e2b",
+            "surface": "#fff8f3",
+            "surface-container": "#fbecd9",
+            "surface-container-high": "#f5e6d3",
+            "surface-container-highest": "#efe0cd",
+            "outline": "#827472",
+            "on-surface": "#221a0f",
+            "on-surface-variant": "#504443",
+            "secondary": "#006e20",
+          },
+          fontFamily: {
+            headline: ["Epilogue"],
+            body: ["Manrope"]
+          }
+        }
+      }
+    }
+  </script>
   <style>
     body { font-family: 'Manrope', sans-serif; }
     h1, h2, h3, h4 { font-family: 'Epilogue', sans-serif; }
@@ -36,7 +62,7 @@
     <div class="glass-card w-full max-w-md p-8 rounded-3xl shadow-xl">
       <div class="text-center mb-8">
         <h2 class="text-3xl font-black text-primary">Admin Access</h2>
-        <p class="text-on-surface-variant mt-2 text-sm">Secure login for CoMoAdda management</p>
+        <p class="text-on-surface-variant mt-2 text-sm">Secure login for CoMo Adda management</p>
       </div>
       <form id="login-form" class="space-y-4">
         <div>
@@ -64,7 +90,7 @@
     <!-- Sidebar -->
     <aside class="w-full md:w-64 bg-surface-container-high border-r border-outline/20 flex flex-col shrink-0">
       <div class="p-4 md:p-6 border-b border-outline/20">
-        <img src="logo.png" alt="CoMoAdda" class="h-10 w-auto object-contain" />
+        <img src="logo.png" alt="CoMo Adda" class="h-10 w-auto object-contain" />
         <span class="text-[10px] md:text-xs font-bold text-secondary uppercase tracking-widest">Admin Panel</span>
       </div>
       <nav class="flex-1 p-2 md:p-4 space-y-1 md:space-y-2 overflow-x-auto md:overflow-x-visible flex md:flex-col gap-2 md:gap-0">
@@ -121,8 +147,26 @@
           <h2 class="text-2xl md:text-3xl font-black text-primary mb-2 md:mb-4">Product Sales Tracking</h2>
           <p class="text-xs md:text-sm text-on-surface-variant mb-6">Track total units sold across all delivered orders.</p>
           <div class="glass-card rounded-2xl p-4 md:p-6 text-sm md:text-base border border-outline/10">
-            <div id="product-sales-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div id="product-sales-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               <div class="col-span-full text-on-surface-variant">Loading sales...</div>
+            </div>
+            <div id="sales-metrics-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-8 border-t border-outline/10">
+              <div class="p-4 bg-white rounded-xl border border-outline/20 shadow-sm flex flex-col">
+                <span class="text-xs text-on-surface-variant mb-1 uppercase tracking-widest font-bold">Total Sales</span>
+                <span id="metric-total-sales" class="text-2xl font-black text-primary">0</span>
+              </div>
+              <div class="p-4 bg-white rounded-xl border border-outline/20 shadow-sm flex flex-col">
+                <span class="text-xs text-on-surface-variant mb-1 uppercase tracking-widest font-bold">Total Revenue</span>
+                <span id="metric-total-revenue" class="text-2xl font-black text-secondary">₹0</span>
+              </div>
+              <div class="p-4 bg-white rounded-xl border border-outline/20 shadow-sm flex flex-col">
+                <span class="text-xs text-on-surface-variant mb-1 uppercase tracking-widest font-bold">Total Profit</span>
+                <span id="metric-total-profit" class="text-2xl font-black text-green-600">₹0</span>
+              </div>
+              <div class="p-4 bg-white rounded-xl border border-outline/20 shadow-sm flex flex-col">
+                <span class="text-xs text-on-surface-variant mb-1 uppercase tracking-widest font-bold">Total Loss</span>
+                <span id="metric-total-loss" class="text-2xl font-black text-red-600">₹0</span>
+              </div>
             </div>
           </div>
         </div>
@@ -225,7 +269,11 @@
                   <label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1 block">Orig. Price (₹)</label>
                   <input type="number" id="prod-original-price" placeholder="Optional" class="w-full bg-white rounded-xl p-3 border border-outline/20">
                 </div>
-                <div class="col-span-2 md:col-span-1">
+                <div>
+                  <label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1 block">Cost Price (₹)</label>
+                  <input type="number" id="prod-cost-price" placeholder="For Profit Calculation" class="w-full bg-white rounded-xl p-3 border border-outline/20">
+                </div>
+                <div class="col-span-3 md:col-span-3">
                   <label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1 block">Badge (e.g. ⭐ Best Seller)</label>
                   <input type="text" id="prod-badge" class="w-full bg-white rounded-xl p-3 border border-outline/20">
                 </div>
@@ -274,6 +322,28 @@
           </div>
         </div>
       </section>
+
+      <!-- Image Cropper Modal -->
+      <div id="cropper-modal" class="fixed inset-0 z-[60] hidden bg-black/80 backdrop-blur-sm flex justify-center items-center p-4">
+        <div class="bg-surface rounded-2xl md:rounded-3xl p-5 md:p-8 max-w-2xl w-full max-h-[95vh] flex flex-col">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-black text-primary">Crop Image</h3>
+            <button type="button" onclick="closeCropperModal()" class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">close</span></button>
+          </div>
+          <div class="flex-1 min-h-[300px] bg-black/5 rounded-xl overflow-hidden mb-4 relative flex items-center justify-center">
+            <img id="cropper-image" src="" alt="Image to crop" style="max-width: 100%; max-height: 50vh;">
+          </div>
+          <div class="flex gap-2 flex-wrap mb-4 justify-center">
+            <button type="button" onclick="setCropperAspectRatio(1)" class="px-4 py-2 bg-surface-container-high rounded border border-outline/20 text-sm font-bold">1:1 Square</button>
+            <button type="button" onclick="setCropperAspectRatio(4/3)" class="px-4 py-2 bg-surface-container-high rounded border border-outline/20 text-sm font-bold">4:3 Landscape</button>
+            <button type="button" onclick="setCropperAspectRatio(16/9)" class="px-4 py-2 bg-surface-container-high rounded border border-outline/20 text-sm font-bold">16:9 Widescreen</button>
+            <button type="button" onclick="setCropperAspectRatio(NaN)" class="px-4 py-2 bg-surface-container-high rounded border border-outline/20 text-sm font-bold">Freeform</button>
+          </div>
+          <button type="button" onclick="applyCroppedImage()" class="w-full py-3 bg-primary text-white rounded-xl font-bold flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined">crop</span> Save Cropped Image
+          </button>
+        </div>
+      </div>
 
       <!-- REWARDS & PROMOS TAB -->
       <section id="tab-offers" class="tab-pane hidden">
@@ -636,7 +706,7 @@
           <!-- Why CoMoAdda Feature Content -->
           <div class="space-y-4">
             <div>
-               <h4 class="font-bold text-primary">"Why CoMoAdda?" Features</h4>
+               <h4 class="font-bold text-primary">"Why CoMo Adda?" Features</h4>
                <p class="text-xs text-on-surface-variant mb-4">Edit the 4 main value propositions on the homepage.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
