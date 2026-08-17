@@ -4188,6 +4188,8 @@
         const dbProducts = [];
         snapshot.forEach((doc) => {
           const data = doc.data();
+          if (data.visible === false) return; // Skip hidden products
+          
           dbProducts.push({
             id: doc.id,
             name: data.name,

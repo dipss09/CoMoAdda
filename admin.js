@@ -856,42 +856,67 @@ let currentProducts = [];
 
 function loadProducts() {
   db.collection("products").onSnapshot(snapshot => {
-    const grid = document.getElementById("products-grid");
+    const container = document.getElementById("products-container");
+    if (!container) return; // Wait for DOM
     currentProducts = [];
-    let html = "";
     snapshot.forEach(doc => {
       const p = doc.data();
       p.id = doc.id;
       currentProducts.push(p);
-      const isAvail = !p.outOfStock;
-      
-      html += `
-      <div class="glass-card p-6 rounded-2xl flex flex-col justify-between h-full bg-white relative group">
-        <div class="relative w-full h-40 rounded-xl overflow-hidden mb-4">
-          <img src="${p.img}" class="w-full h-full object-contain bg-surface-container">
-        </div>
-        <div>
-          <h4 class="font-bold text-primary mb-1">${p.name}</h4>
-          <p class="text-xs text-on-surface-variant line-clamp-2 mb-2">${p.desc}</p>
-          <div class="font-black text-primary mb-4">₹${p.price} <span class="text-xs text-on-surface-variant font-normal ml-2">Cost: ₹${p.costPrice || 0}</span></div>
-        </div>
-        <div class="mt-auto pt-4 border-t border-outline/10 space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold ${isAvail ? 'text-secondary' : 'text-outline'}">${isAvail ? 'In Stock' : 'Out of Stock'}</span>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" onchange="toggleProductStock('${p.id}', this.checked)" class="sr-only peer" ${isAvail ? 'checked' : ''}>
-              <div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
-            </label>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="editProduct('${p.id}')" class="flex-1 py-2 text-xs font-bold bg-surface-container-high rounded border border-outline/20 hover:bg-surface-container-highest transition-colors text-primary">Edit</button>
-            <button onclick="deleteProduct('${p.id}')" class="flex-1 py-2 text-xs font-bold bg-red-50 text-red-600 rounded border border-red-100 hover:bg-red-100 transition-colors">Delete</button>
-          </div>
-        </div>
-      </div>`;
     });
+
+    const categoryOrder = ["Cold Coffee", "Mojito", "Keychains", "Chaat", "Others"];
+    let grouped = { "Cold Coffee": [], "Mojito": [], "Keychains": [], "Chaat": [], "Others": [] };
+    
+    currentProducts.forEach(p => {
+      let c = (p.category || "").trim();
+      let match = categoryOrder.find(cat => cat.toLowerCase() === c.toLowerCase());
+      if (match && match !== "Others") {
+        grouped[match].push(p);
+      } else {
+        grouped["Others"].push(p);
+      }
+    });
+
+    let html = "";
+    categoryOrder.forEach(cat => {
+      if (grouped[cat].length === 0) return;
+      html += `<div class="mb-8"><h3 class="text-xl font-black text-primary mb-4 uppercase tracking-widest border-b border-outline/10 pb-2">${cat}</h3><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+      grouped[cat].forEach(p => {
+        const isAvail = !p.outOfStock;
+        const isVisible = p.visible !== false; // default true
+        
+        html += `
+        <div class="glass-card p-6 rounded-2xl flex flex-col justify-between h-full bg-white relative group ${!isVisible ? 'opacity-60 grayscale-[50%]' : ''}">
+          <div class="relative w-full h-40 rounded-xl overflow-hidden mb-4">
+            <img src="${p.img}" class="w-full h-full object-contain bg-surface-container">
+            ${!isVisible ? `<div class="absolute top-2 right-2 bg-black/70 text-white text-[10px] px-2 py-1 rounded-full font-bold">Hidden</div>` : ''}
+          </div>
+          <div>
+            <h4 class="font-bold text-primary mb-1">${p.name}</h4>
+            <p class="text-xs text-on-surface-variant line-clamp-2 mb-2">${p.desc}</p>
+            <div class="font-black text-primary mb-4">₹${p.price} <span class="text-xs text-on-surface-variant font-normal ml-2">Cost: ₹${p.costPrice || 0}</span></div>
+          </div>
+          <div class="mt-auto pt-4 border-t border-outline/10 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold ${isAvail ? 'text-secondary' : 'text-outline'}">${isAvail ? 'In Stock' : 'Out of Stock'}</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" onchange="toggleProductStock('${p.id}', this.checked)" class="sr-only peer" ${isAvail ? 'checked' : ''}>
+                <div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
+              </label>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="editProduct('${p.id}')" class="flex-1 py-2 text-xs font-bold bg-surface-container-high rounded border border-outline/20 hover:bg-surface-container-highest transition-colors text-primary">Edit</button>
+              <button onclick="deleteProduct('${p.id}')" class="flex-1 py-2 text-xs font-bold bg-red-50 text-red-600 rounded border border-red-100 hover:bg-red-100 transition-colors">Delete</button>
+            </div>
+          </div>
+        </div>`;
+      });
+      html += `</div></div>`;
+    });
+
     if(html === "") html = `<div class="p-8 text-center text-on-surface-variant col-span-full">No products found.</div>`;
-    grid.innerHTML = html;
+    container.innerHTML = html;
 
     // Populate category suggestions datalist for collection Target Category
     const cats = [...new Set(currentProducts.map(p => (p.category || '').trim()).filter(Boolean))];
@@ -916,6 +941,8 @@ function closeProductModal() {
   document.getElementById('prod-original-price').value = '';
   document.getElementById('product-modal-title').innerText = 'Add Product';
   document.getElementById('prod-cost-price').value = '';
+  const visToggle = document.getElementById('prod-visible');
+  if (visToggle) visToggle.checked = true;
   window.pendingCroppedFiles = [];
   const preview = document.getElementById('prod-img-preview');
   if (preview) preview.innerHTML = '';
@@ -1002,6 +1029,7 @@ document.getElementById("product-form").addEventListener("submit", async (e) => 
       images: allImages,
       desc: document.getElementById("prod-desc").value,
       outOfStock: document.getElementById("prod-outofstock").checked,
+      visible: document.getElementById("prod-visible") ? document.getElementById("prod-visible").checked : true,
       extras: extrasArr
     };
     const task = id ? db.collection("products").doc(id).update(payload) : db.collection("products").add(payload);
@@ -1049,6 +1077,8 @@ window.editProduct = function(id) {
   document.getElementById("prod-img-url").value = p.img;
   document.getElementById("prod-desc").value = p.desc;
   document.getElementById("prod-outofstock").checked = p.outOfStock;
+  const visToggle = document.getElementById("prod-visible");
+  if (visToggle) visToggle.checked = p.visible !== false;
   window.pendingCroppedFiles = [];
 
   // Render image previews
@@ -1413,12 +1443,19 @@ if (createAdminForm) {
 window.updateSalesDashboard = function() {
   if (!window.deliveredOrders) return;
   let totalSales = 0, totalRev = 0, totalProfit = 0, totalLoss = 0;
+  let productSales = {}; // Restored tracking map
+
   window.deliveredOrders.forEach(order => {
     totalRev += Number(order.total) || 0;
     if (order.items) {
       order.items.forEach(item => {
         let qty = parseInt(item.qty, 10) || 0;
         totalSales += qty;
+        
+        // Track individual product sales
+        if (!productSales[item.name]) productSales[item.name] = 0;
+        productSales[item.name] += qty;
+
         let p = window.currentProducts ? window.currentProducts.find(x => x.name === item.name) : null;
         let costPrice = p && p.costPrice ? Number(p.costPrice) : 0;
         let sellingPrice = Number(item.price) || 0;
@@ -1430,6 +1467,26 @@ window.updateSalesDashboard = function() {
       });
     }
   });
+  
+  // Render individual product sales
+  const salesGrid = document.getElementById("product-sales-grid");
+  if (salesGrid) {
+    let salesHtml = "";
+    const sortedSales = Object.keys(productSales).sort((a, b) => productSales[b] - productSales[a]);
+    if (sortedSales.length === 0) {
+      salesHtml = `<div class="col-span-full text-on-surface-variant">No delivered items yet.</div>`;
+    } else {
+      sortedSales.forEach(name => {
+        salesHtml += `
+          <div class="p-4 bg-white rounded-xl border border-outline/20 shadow-sm flex flex-col">
+            <span class="text-xs text-on-surface-variant mb-1 line-clamp-1" title="${name}">${name}</span>
+            <span class="text-lg font-black text-primary">${productSales[name]} sold</span>
+          </div>
+        `;
+      });
+    }
+    salesGrid.innerHTML = salesHtml;
+  }
   
   const elTotal = document.getElementById("metric-total-sales");
   const elRev = document.getElementById("metric-total-revenue");
