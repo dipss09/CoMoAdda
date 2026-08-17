@@ -1,6 +1,7 @@
 {
+  "buildCommand": "npm run build:css && mkdir -p public && cp -r src frames *.html *.js *.css *.png *.txt *.xml public/ 2>/dev/null || true",
+  "outputDirectory": "public",
   "cleanUrls": true,
-  "outputDirectory": ".",
   "headers": [
     {
       "source": "/(.*)",
