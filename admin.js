@@ -760,7 +760,7 @@ function renderCustomizationRows(dataArr) {
 // ──────────────────────────────────────────────
 //  🚀  IMAGE UPLOAD & COMPRESSION Helper (Firebase Storage)
 // ──────────────────────────────────────────────
-function compressAndGetBase64(file, maxWidth = 800) {
+function compressAndGetBase64(file, maxWidth = 600) {
   return new Promise((resolve, reject) => {
     let done = false;
     const finish = (fn, val) => { if (!done) { done = true; fn(val); } };
@@ -823,7 +823,7 @@ function compressAndGetBase64(file, maxWidth = 800) {
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
 
         // Get base64 immediately as our fallback
-        const base64Fallback = canvas.toDataURL('image/jpeg', 0.65);
+        const base64Fallback = canvas.toDataURL('image/jpeg', 0.55);
 
         canvas.toBlob((blob) => {
           if (!blob) return ok(base64Fallback);
@@ -841,7 +841,7 @@ function compressAndGetBase64(file, maxWidth = 800) {
               () => { clearTimeout(uploadTimeout); task.snapshot.ref.getDownloadURL().then(ok).catch(() => ok(base64Fallback)); }
             );
           } catch(e) { ok(base64Fallback); }
-        }, 'image/jpeg', 0.7);
+        }, 'image/jpeg', 0.55);
       };
       img.onerror = () => fail('Image processing failed for ' + file.name);
     };
@@ -1550,7 +1550,7 @@ window.closeCropperModal = function() {
 
 window.applyCroppedImage = function() {
   if (!cropperInstance) return;
-  cropperInstance.getCroppedCanvas({ maxWidth: 1000, maxHeight: 1000 }).toBlob((blob) => {
+  cropperInstance.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toBlob((blob) => {
     const file = new File([blob], "cropped_" + Date.now() + ".jpg", { type: "image/jpeg" });
     if (!window.pendingCroppedFiles) window.pendingCroppedFiles = [];
     window.pendingCroppedFiles.push(file);
@@ -1564,5 +1564,5 @@ window.applyCroppedImage = function() {
         <button type="button" onclick="removePreviewImg(${idx})" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full text-[10px] flex items-center justify-center font-black">×</button>
       </div>`;
     closeCropperModal();
-  }, 'image/jpeg', 0.8);
+  }, 'image/jpeg', 0.65);
 };
