@@ -40,6 +40,34 @@ auth.onAuthStateChanged((user) => {
         loadOrders();
         loadUsers();
         loadReferrals();
+        
+        // AUTO-HEALING SCRIPT: Fix blob URLs in database
+        db.collection("products").get().then(snapshot => {
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            let changed = false;
+            
+            // Clean images array
+            if (data.images && Array.isArray(data.images) && data.images.some(url => typeof url === 'string' && url.startsWith("blob:"))) {
+              data.images = data.images.filter(url => typeof url === 'string' && !url.startsWith("blob:"));
+              changed = true;
+            }
+            
+            // Fix main img
+            if (data.img && typeof data.img === 'string' && data.img.startsWith("blob:")) {
+              data.img = (data.images && data.images.length > 0) ? data.images[0] : 'https://placehold.co/400';
+              changed = true;
+            }
+            
+            if (changed) {
+              db.collection("products").doc(doc.id).update({
+                images: data.images,
+                img: data.img
+              }).then(() => console.log("Healed corrupted image for product:", data.name));
+            }
+          });
+        });
+        
         loadProducts();
         loadOffers();
         loadReviews();
@@ -1015,7 +1043,11 @@ document.getElementById("product-form").addEventListener("submit", async (e) => 
 
   // Gather existing images from preview (kept ones)
   let existingImages = [];
-  document.querySelectorAll('#prod-img-preview img').forEach(img => existingImages.push(img.dataset.url));
+  document.querySelectorAll('#prod-img-preview img').forEach(img => {
+    if (img.dataset.isNew !== "true" && !img.dataset.url.startsWith("blob:")) {
+      existingImages.push(img.dataset.url);
+    }
+  });
 
   const saveProductToDB = (newImageUrls) => {
     const allImages = [...existingImages, ...newImageUrls];
