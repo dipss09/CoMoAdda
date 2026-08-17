@@ -17,7 +17,7 @@
       ]
     },
     {
-      "source": "/(.*\\.html|/)",
+      "source": "/(.*\\.html)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -26,7 +26,25 @@
       ]
     },
     {
-      "source": "/(.*\\.(js|css))",
+      "source": "/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.js)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.css)",
       "headers": [
         {
           "key": "Cache-Control",
