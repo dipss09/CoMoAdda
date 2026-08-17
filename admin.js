@@ -865,18 +865,29 @@ function loadProducts() {
       currentProducts.push(p);
     });
 
-    const categoryOrder = ["Cold Coffee", "Mojito", "Keychains", "Chaat", "Others"];
-    let grouped = { "Cold Coffee": [], "Mojito": [], "Keychains": [], "Chaat": [], "Others": [] };
+    let grouped = {};
     
     currentProducts.forEach(p => {
       let c = (p.category || "").trim();
-      let match = categoryOrder.find(cat => cat.toLowerCase() === c.toLowerCase());
-      if (match && match !== "Others") {
-        grouped[match].push(p);
-      } else {
-        grouped["Others"].push(p);
+      if (!c) c = "Others";
+      
+      // Match existing group ignoring case, or create new
+      let key = Object.keys(grouped).find(k => k.toLowerCase() === c.toLowerCase());
+      if (!key) {
+        // If user typed "keychains", it creates "keychains". To make it look nice, we could capitalize it, but we'll just use the user's casing for the first item found.
+        key = c;
+        grouped[key] = [];
       }
+      grouped[key].push(p);
     });
+
+    let categoryOrder = Object.keys(grouped).sort();
+    // Always put 'Others' at the bottom
+    const othersIndex = categoryOrder.findIndex(c => c.toLowerCase() === 'others');
+    if (othersIndex !== -1) {
+      const othersKey = categoryOrder.splice(othersIndex, 1)[0];
+      categoryOrder.push(othersKey);
+    }
 
     let html = "";
     categoryOrder.forEach(cat => {
