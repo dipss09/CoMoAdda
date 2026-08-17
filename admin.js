@@ -3,9 +3,9 @@
 // ──────────────────────────────────────────────
 const firebaseConfig = {
   apiKey: ["AIzaSyD5", "jNH16Xkz", "rq6prfqtx", "Oa10HbqEy", "BPm44"].join(""),
-  authDomain: "comoadda.firebaseapp.com",
-  projectId: "comoadda",
-  storageBucket: "comoadda.appspot.com",
+  authDomain: "brewdipu-f2092.firebaseapp.com",
+  projectId: "brewdipu-f2092",
+  storageBucket: "brewdipu-f2092.appspot.com",
   messagingSenderId: "959585483776",
   appId: "1:959585483776:web:65fec5ade570d763546ce5"
 };

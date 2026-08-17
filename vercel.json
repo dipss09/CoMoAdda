@@ -24,6 +24,15 @@
           "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
         }
       ]
+    },
+    {
+      "source": "/(.*\\.(js|css))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, must-revalidate"
+        }
+      ]
     }
   ],
   "redirects": [
